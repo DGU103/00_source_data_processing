@@ -12,6 +12,7 @@ function Export-MergedExcelDataToCsv {
     # Header keywords including "Line Number"
     $headerKeywords = @("Equipment No", "EquipmentNo", "Tag No", "TagNo", "Tag Number", "TagNumber", "Line Number")
     
+#Mods
 
     Write-Host "[INFO] Scanning for Excel files in: $RootFolder"
     $rowexcelFiles = Get-ChildItem -Path $RootFolder -Recurse -Include *.xls, *.xlsx |
