@@ -1,0 +1,57 @@
+----
+DIAGRAMS
+CONSOLE SHOW
+!folder = '\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Diag\'
+-- !Archive = '\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Diag\Archive\'
+--var !date clock date
+--!date = !date.replace(' ','-')
+
+-- !backup = !archive + '\EPCIC11_DIAG_Tagged_Items_' + !date + '.csv'
+
+-- !file.copy(!backup)
+-- handle (160,54)
+-- endhandle
+!a = object DATETIME()
+!datetime = !a.date().string() + '/' + !a.MONTH().STRING() + '/' + !a.year().STRING() + ' ' + !a.HOUR().STRING() +':'+  !a.MINUTE().STRING()+':'+  !a.SECOND().STRING()
+
+
+var !epcic11 eval name for all scgrou with ( ( matchw(name,'*MAYY*') or matchw(name,'*PAYY*') or matchw(name,'*QAYY*') or matchw(name,'*RAYY*') or matchw(name,'*TAYY*') or matchw(name,'*LAYY*') or matchw(name,'*UAYY*') or matchw(name,'*WAYY*') or matchw(name,'*XAYY*') or matchw(name,'*WHP*') ) and Dbdepth eq 1)
+
+var !epcic12 collect all scgrou with ( matchw(name,'*BH*') and Dbdepth eq 1 )
+
+var !epcic13 eval name for all scgrou with ( ( matchw(name,'*BJ*') or matchw(name,'*LEGENDS*') ) and Dbdepth eq 1 )
+-- var !epcic13 eval name for all scgrou with ( ( matchw(name,'*dfgh*') or matchw(name,'*LEGENDS*') ) and Dbdepth eq 1 )
+
+!epc = split('epcic11,epcic12,epcic13',',')
+
+do !k values !epc 
+	!elements = array()
+	do !j values !$!k
+	var !elements append coll all ( SCAREA SCEQUI SCHVAC SCINST SCOINS SCPLIN SCVALV ) with ( isnamed eq t and matchw(name,'*WALL*') eq f and matchw(name,'*DRIP*') eq f and matchw(name,'*-') eq f and matchw(name,'*-TR-*') eq f and matchw(name,'*-SIG-*') eq f and matchw(:scdemcon,'Clean-up') eq f and matchw(:scseqno,'*X*') eq f and matchw(name,'*Copy*') eq f and matchw(name,'*PFD*') eq f and matchw(name,'*XX*') eq f and matchw(name,'*VPACK*') eq f and matchw(name,'*-TP-*') eq f and matchw(namn,'AS*') and matchw(name,'*BOTTLE*') eq f and matchw(name,'*--*') eq f and ( length(name) - length(replace(name,'-','')) gt 1) and matchw (:scsymname,'*NITROGEN BOTTLE*') eq f and matchw(name,'*--ILINE-*') eq f and matchw(name,'*-Unset*') eq f and matchw(name,'*UFD*') eq f and matchw(name,'*PSD*') eq f and matchw(name,'*USD*') eq f and matchw(name of scgrou,'*-03-*') eq f ) for $!j
+	enddo
+	
+	q var !k
+	!data = array()
+	--!data.append('NAMN,REF,Type,DESC,DesLnk,EngLnk')
+	!data.append('NAMN,Type,DESC,DATE')
+	
+	do !i values !elements
+		!elem = !i.dbref()
+		!val = !elem.namn + ',' + !elem.type + ',' + !elem.desc + ',' + !datetime
+		--+ ',' + !elem.deslnk.string() + ',' + !elem.englnk.string()
+	
+		handle any
+			q var !i !!error
+			return
+		endhandle
+	
+		!data.append(!val)
+	enddo
+	
+	!filen = !folder + !k.upcase() + '_DIAG_Tagged_Items.csv'
+	!file = object file(!filen)
+	!file.writefile('overwrite',!data)
+enddo	
+
+
+FINISH

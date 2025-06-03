@@ -1,0 +1,35 @@
+-- var !all collect all SUBEQUI where isnamed
+
+-- do !item val !all
+-- 	var !subitems coll all where (isnamed and type neq 'NOZZ') for $!item 
+-- 	do !subitem val !subitems
+-- 		$!subitem
+-- 		UNLOCK ALL
+-- 	handle any
+-- 	endhandle
+-- 		UNNAME $!subitem
+-- 		handle (2,25) (2,18)
+-- 		endhandle	
+-- 	enddo
+-- 	UNNAME $!item
+-- 	handle (2,25) (2,18)
+-- 	endhandle
+	
+-- enddo
+-- SAVEWORK
+
+-- var !all collect all genpri where isnamed
+
+-- do !item val !all
+--     $!item
+--     unname ce
+--     -- !name = !!ce.name.replace('_STP','')
+--     -- NAME $!name
+-- enddo
+!all = !!collectallfor('EQUI','', /EPC12_Vendor_STP )
+do !eq val !all
+    $!eq
+    delete equi
+enddo
+savework
+-- FINISH

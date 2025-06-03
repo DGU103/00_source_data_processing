@@ -1,0 +1,38 @@
+--  **********************************************************************************************
+--  SPI         : (c) COPYRIGHT 2015 TO CURRENT YEAR
+--  FILENAME    : RYA-Run-ReportMacro.mac
+--  WRITTEN BY  : Anantha
+--  DATE        : 18 Feb 2024
+--  DESCRIPTION : Run Daily Report Report to Validate Model
+--              :
+--              :
+--  **********************************************************************************************
+--  NOTES       :
+--              :
+--              :
+--  **********************************************************************************************
+--  
+DESIGN
+Trace off
+
+$* Run all Report Macro
+$p Macro start
+
+
+$m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC12-E3D-Tagged-Items.rep
+$m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC12-ELE-Earth-Bar-Naming.rep
+$m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC12-ELE-MCT-Naming.rep
+$m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC12-ELE-Support-Naming.rep
+$m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC12-ELE-Tray-Naming.rep
+$m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC12-EQUI-Trim-Naming.rep
+$m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC12-INS-MCT-Naming.rep
+$m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC12-INS-Support-Naming.rep
+$m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC12-INS-Tray-Naming.rep
+$m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC12-Pipe-Support-Naming.rep
+$m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC12-TEL-Tray-Naming.rep
+
+$m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC12-Catalog-Naming.rep
+
+$p Macro End
+
+FINISH

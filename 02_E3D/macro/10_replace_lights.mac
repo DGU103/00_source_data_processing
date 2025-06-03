@@ -1,0 +1,356 @@
+
+var !equis coll all equi where (matchw(NAME of zone, |*LGHT*|)) for ce
+
+-- var !equis coll all equi where (matchw(NAME of zone, |*LGHT*|)) 
+
+
+do !equi val !equis
+	var !extent wvol of $!equi 
+	skip if !extent eq 'unset'
+	!extentList  = !extent.split()
+	!start       = object POSITION('E ' & !extentList[1] & ' N ' &  !extentList[2] & ' U ' &  !extentList[3] & ' WRT WORLD')
+	!end         = object POSITION('E ' & !extentList[4] & ' N ' &  !extentList[5] & ' U ' &  !extentList[6] & ' WRT WORLD')
+    
+	!volume      = object VOLUME(!start, !end)
+    !box        = !volume.box()
+   
+-- q var !box
+	if (!box.XLENGTH ge 1371 and !box.XLENGTH le 1372) or (!box.yLENGTH ge 1371 and !box.yLENGTH le 1372) or (!box.zLENGTH ge 1371 and !box.zLENGTH le 1372)  then
+        var !toDelete coll all (GENPRI DISH NCYL NRTO NBOX) for $!equi
+        do !item val !toDelete
+            var !type type of $!item
+            $!item
+            DELETE $!type
+        enddo 
+                
+        INPUT BEGIN
+
+        NEW SUBEQUIPMENT
+        POS W 64359.7mm S 5162.81mm U 6349.43mm
+        BUIL false
+        DSCO unset
+        PTSP unset
+        INSC unset
+        SPRE Nulref 
+
+        NEW BOX
+        POS E 64296.11mm N 5512.82mm D 6204.83mm
+        ORI Y is S and Z is W 45 U
+        XLEN 2mm
+        YLEN 30mm
+        ZLEN 54.57mm
+
+        END 
+        NEW BOX
+        POS E 64423.27mm N 5512.82mm D 6204.83mm
+        ORI Y is S and Z is E 45 U
+        XLEN 2mm
+        YLEN 30mm
+        ZLEN 54.57mm
+
+        END 
+        NEW BOX
+        POS E 64265.02mm N 5512.82mm D 6185.83mm
+        ORI Y is S and Z is U
+        XLEN 25mm
+        YLEN 30mm
+        ZLEN 2mm
+
+        END 
+        NEW BOX
+        POS E 64454.36mm N 5513.03mm D 6185.83mm
+        ORI Y is S and Z is U
+        XLEN 25mm
+        YLEN 30.41mm
+        ZLEN 2mm
+
+        END 
+        NEW RTORUS
+        POS E 64252.52mm N 5522.57mm D 6185.83mm
+        ORI Y is W and Z is D
+        ROUT 5.25mm
+        HEIG 2mm
+        ANGL 180degree
+
+        END 
+        NEW RTORUS
+        POS E 64466.86mm N 5522.88mm D 6185.83mm
+        ORI Y is E and Z is U
+        ROUT 5.35mm
+        HEIG 2mm
+        ANGL 180degree
+
+        END 
+        NEW RTORUS
+        POS E 64252.52mm N 5503.07mm D 6185.83mm
+        ORI Y is W and Z is D
+        ROUT 5.25mm
+        HEIG 2mm
+        ANGL 180degree
+
+        END 
+        NEW RTORUS
+        POS E 64466.86mm N 5503.28mm D 6185.83mm
+        ORI Y is E and Z is U
+        ROUT 5.25mm
+        HEIG 2mm
+        ANGL 180degree
+
+        END 
+        NEW BOX
+        POS E 64359.69mm N 5512.82mm D 6223.83mm
+        ORI Y is S and Z is U
+        XLEN 90mm
+        YLEN 30mm
+        ZLEN 2mm
+
+        END 
+        NEW BOX
+        POS E 64444.36mm N 5500.32mm D 6185.83mm
+        ORI Y is S and Z is U
+        XLEN 5mm
+        YLEN 5mm
+        ZLEN 2mm
+
+        END 
+        END 
+        NEW SUBEQUIPMENT
+        POS W 64359.7mm S 5862.81mm U 6349.43mm
+        BUIL false
+        DSCO unset
+        PTSP unset
+        INSC unset
+        SPRE Nulref 
+
+        NEW BOX
+        POS E 64296.11mm N 5512.82mm D 6204.83mm
+        ORI Y is S and Z is W 45 U
+        XLEN 2mm
+        YLEN 30mm
+        ZLEN 54.57mm
+
+        END 
+        NEW BOX
+        POS E 64423.27mm N 5512.82mm D 6204.83mm
+        ORI Y is S and Z is E 45 U
+        XLEN 2mm
+        YLEN 30mm
+        ZLEN 54.57mm
+
+        END 
+        NEW BOX
+        POS E 64265.02mm N 5512.82mm D 6185.83mm
+        ORI Y is S and Z is U
+        XLEN 25mm
+        YLEN 30mm
+        ZLEN 2mm
+
+        END 
+        NEW BOX
+        POS E 64454.36mm N 5513.03mm D 6185.83mm
+        ORI Y is S and Z is U
+        XLEN 25mm
+        YLEN 30.41mm
+        ZLEN 2mm
+
+        END 
+        NEW RTORUS
+        POS E 64252.52mm N 5522.57mm D 6185.83mm
+        ORI Y is W and Z is D
+        ROUT 5.25mm
+        HEIG 2mm
+        ANGL 180degree
+
+        END 
+        NEW RTORUS
+        POS E 64466.86mm N 5522.88mm D 6185.83mm
+        ORI Y is E and Z is U
+        ROUT 5.35mm
+        HEIG 2mm
+        ANGL 180degree
+
+        END 
+        NEW RTORUS
+        POS E 64466.86mm N 5503.17mm D 6185.83mm
+        ORI Y is E and Z is U
+        ROUT 5.35mm
+        HEIG 2mm
+        ANGL 180degree
+
+        END 
+        NEW RTORUS
+        POS E 64252.52mm N 5503.07mm D 6185.83mm
+        ORI Y is W and Z is D
+        ROUT 5.25mm
+        HEIG 2mm
+        ANGL 180degree
+
+        END 
+        NEW BOX
+        POS E 64359.69mm N 5512.82mm D 6223.83mm
+        ORI Y is S and Z is U
+        XLEN 90mm
+        YLEN 30mm
+        ZLEN 2mm
+
+        END 
+        END 
+        NEW BOX
+        POS E 0mm N 0mm U 90mm
+        XLEN 178mm
+        YLEN 1372mm
+        ZLEN 70mm
+
+        END 
+        NEW CYLINDER
+        POS E 0mm N 0mm U 90mm
+        ORI Y is E and Z is S
+        DIAM 190mm
+        HEIG 1370mm
+
+        NEW NBOX
+        POS W 50mm N 0mm U 0mm
+        XLEN 100mm
+        YLEN 1300mm
+        ZLEN 1600mm
+
+        END 
+        END 
+        END 
+        INPUT END  EQUIPMENT /ASBHA-LE-1830-0109
+        INPUT FINISH
+    endif
+
+    
+	if (!box.XLENGTH ge 747 and !box.XLENGTH le 748) or (!box.yLENGTH ge 747 and !box.yLENGTH le 748) or (!box.zLENGTH ge 747 and !box.zLENGTH le 748) then
+        var !toDelete coll all (GENPRI DISH NCYL NRTO NBOX) for $!equi
+        do !item val !toDelete
+            var !type type of $!item
+            $!item
+            DELETE $!type
+        enddo 
+                
+        NEW BOX
+        POS E 0mm N 0mm U 90mm
+        XLEN 178mm
+        YLEN 750mm
+        ZLEN 70mm
+
+        NEW CYLINDER
+        POS E 0mm N 0mm U 90mm
+        ORI Y is E and Z is S
+        DIAM 190mm
+        HEIG 750mm
+
+        NEW NBOX
+        POS W 50mm N 0mm U 0mm
+        XLEN 100mm
+        YLEN 750mm
+        ZLEN 1600mm
+
+    endif
+
+	if (!box.XLENGTH ge 1372 and !box.XLENGTH le 1373) or (!box.yLENGTH ge 1372 and !box.yLENGTH le 1373) or (!box.zLENGTH ge 1372 and !box.zLENGTH le 1373) then
+        var !toDelete coll all (GENPRI DISH NCYL NRTO NBOX) for $!equi
+        do !item val !toDelete
+            var !type type of $!item
+            $!item
+            DELETE $!type
+        enddo 
+        var !toDelete coll all (SUBE) WHERE (mem count eq 0) for $!equi
+        do !item val !toDelete
+            var !type type of $!item
+            $!item
+            DELETE $!type
+        enddo 
+
+        NEW CYLINDER
+        POS E 0mm N 0.03mm U 45mm
+        ORI Y is E and Z is N
+        DIAM 180mm
+        HEIG 1372mm
+
+        NEW NBOX
+        POS W 55mm N 0mm U 0mm
+        XLEN 100mm
+        YLEN 500mm
+        ZLEN 1372mm
+
+        NEW NBOX
+        POS E 130mm N 0mm U 0mm
+        XLEN 100mm
+        YLEN 500mm
+        ZLEN 1372mm
+
+
+        NEW BOX
+        POS E 0mm N 0mm U 25mm
+        XLEN 160mm
+        YLEN 1320mm
+        ZLEN 50mm
+
+
+
+    endif
+
+enddo
+
+var !equis coll all equi where (matchw(NAME of zone, |*LGHT*|) and desc eq '12L')
+do !equi val !equis
+    var !toDelete coll all SUBE for $!equi
+    do !item val !toDelete
+        var !type type of $!item
+        $!item
+        DELETE $!type
+    enddo 
+    new sube
+    NEW BOX
+    POS E 0mm S 82mm U 3mm
+    XLEN 370mm
+    YLEN 5mm
+    ZLEN 60mm
+
+
+    NEW BOX
+    POS E 0.11mm N 96.59mm D 23.87mm
+    ORI Y is N 30 U and Z is S 60 U
+    XLEN 370mm
+    YLEN 170mm
+    ZLEN 70mm
+
+    NEW BOX
+    POS W 0.93mm N 248.28mm U 66.8mm
+    ORI Y is N 28 U and Z is S 62 U
+    XLEN 400mm
+    YLEN 200mm
+    ZLEN 100mm
+
+    NEW CYLINDER
+    POS E 185mm N 136mm U 3mm
+    ORI Y is U and Z is E
+    DIAM 60mm
+    HEIG 5mm
+
+    NEW CYLINDER
+    POS W 185mm N 136mm U 3mm
+    ORI Y is U and Z is E
+    DIAM 60mm
+    HEIG 5mm
+
+    NEW BOX
+    POS E 185mm N 25mm U 3mm
+    XLEN 5mm
+    YLEN 220mm
+    ZLEN 60mm
+
+    NEW BOX
+    POS W 185mm N 25mm U 3mm
+    XLEN 5mm
+    YLEN 220mm
+    ZLEN 60mm
+
+enddo
+
+
+savework
+

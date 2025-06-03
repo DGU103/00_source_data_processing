@@ -1,0 +1,36 @@
+----
+DIAGRAMS
+CONSOLE SHOW
+!folder = '\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Diag\'
+
+!a = object DATETIME()
+!datetime = !a.YEAR().string() + '/' + !a.MONTH().STRING() + '/' + !a.date().STRING() + ' ' + !a.HOUR().STRING() +':'+  !a.MINUTE().STRING()+':'+  !a.SECOND().STRING()
+
+!epc11 = object ARRAY()
+!epc12 = object ARRAY()
+!epc13 = object ARRAY()
+!epc11.append('NAME')
+!epc12.append('NAME')
+!epc13.append('NAME')
+
+var !epc11 append eval NAME for all scgrou with ( ( matchw(name,'/SCG_WHPR1-MDM4*')))
+var !epc12 append eval NAME for all scgrou with ( ( matchw(name,'/SCG_RPBR1-LTE1*')))
+var !epc13 append eval NAME for all scgrou with ( ( matchw(name,'/SCG_CPPR1-MDM5*')))
+
+if(not(!epc11.Empty()))then
+    !path = !folder +'00_EPCIC11_DIAG_Doc_List.csv'
+    !file = object file(!path)
+	!file.writefile('overwrite',!epc11)
+endif
+if (not(!epc12.Empty())) then
+    !path = !folder +'00_EPCIC12_DIAG_Doc_List.csv'
+    !file = object file(!path)
+	!file.writefile('overwrite',!epc12)
+endif
+if (not(!epc13.Empty())) then
+    !path = !folder +'00_EPCIC13_DIAG_Doc_List.csv'
+    !file = object file(!path)
+	!file.writefile('overwrite',!epc13)
+endif
+
+FINISH

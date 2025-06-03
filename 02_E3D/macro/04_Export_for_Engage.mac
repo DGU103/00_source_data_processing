@@ -1,0 +1,82 @@
+
+var !ExportDir '\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\E3D\3DModel'
+
+-- var !ExportDir '\\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\3D_MODELS'
+-- SYSCOM 'IF not EXIST $!ExportDir md ""$!ExportDir'
+
+
+-- Writedown log
+------------------------------EXPORT RVM
+var !mdb MDB
+!mdb = !mdb.replace('/','')
+-- !gpsetid = object dbref('/EPCIC13-GPSET')
+
+
+if (matchw(!mdb, |*BJ*|)) then
+	!fileName = !ExportDir + '\ASBJ_3D_MODEL.rvm'
+elseif (matchw(!mdb, |*BH*|)) then
+	!fileName = !ExportDir + '\ASBH_3D_MODEL.rvm'
+elseif (matchw(!mdb, |*LA*|)) then
+	!fileName = !ExportDir + '\ASLA_3D_MODEL.rvm'
+elseif (matchw(!mdb, |*MA*|)) then
+	!fileName = !ExportDir + '\ASMA_3D_MODEL.rvm'
+elseif (matchw(!mdb, |*QA*|)) then
+	!fileName = !ExportDir + '\ASQA_3D_MODEL.rvm'
+	!logfile = !ExportDir + '\log\ASQA_3D_MODEL.log'
+elseif (matchw(!mdb, |*PA*|)) then
+	!fileName = !ExportDir + '\ASPA_3D_MODEL.rvm'
+elseif (matchw(!mdb, |*RA*|)) then
+	!fileName = !ExportDir + '\ASRA_3D_MODEL.rvm'
+elseif (matchw(!mdb, |*TA*|)) then
+	!fileName = !ExportDir + '\ASTA_3D_MODEL.rvm'
+elseif (matchw(!mdb, |*UA*|)) then
+	!fileName = !ExportDir + '\ASUA_3D_MODEL.rvm'
+elseif (matchw(!mdb, |*WA*|)) then
+	!fileName = !ExportDir + '\ASWA_3D_MODEL.rvm'
+elseif (matchw(!mdb, |*XA*|)) then
+	!fileName = !ExportDir + '\ASXA_3D_MODEL.rvm'
+endif
+!logfile = '/\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\E3D\'+!mdb+'.log'
+alpha log $!logfile overw
+
+-- var !SITEs coll all SITE
+-- var !SITEs coll all SITE with (matchw(NAMN, |*-DE*|) )
+
+-- EXPORT EXCLUDE ALL ANCI
+
+-- VAR !SITEs COLL ALL SITE where (matchw(name, |*-DE|) and  NOT(matchw(NAMN, |*-LQ*|) or matchw(NAMN, |*-BASE*|) or matchw(NAMN, |*-MIE-DE|) or matchw(NAMN, |*STUDY*|)))
+-- DO !SITE val !SITEs
+-- 	var !ZONEs APPEND coll all ZONE where ((matchw(name of site, |*-DE*| ) or matchw(name of site, |*-Vendor*| )) and NOT(matchw(NAMN, |*_T|) or matchw(NAMN, |*_C|)  or matchw(NAMN, |*_F|)  or matchw(NAMN, |*BARGE*|) or matchw(NAMN, |*MISC*|) or matchw(NAMN, |*CABL*|)))
+-- ENDDO
+
+
+
+var !allEquiToExclude coll all EQUI where ( matchw(NAMN, '*SCAL*') or matchw(NAMN, '*MOBILE*') or matchw(NAMN, '*TROLEY*') or matchw(NAMN, '*TROLLEY*')  or matchw(NAMN, '*TRUCK*')  or matchw(NAME, '*VOL*') or matchw(NAMN, '*BOAT*') or matchw(NAMN, '*STUDY*') or matchw(NAMN, '*CARPET*') or matchw(NAMN, '*ZONE*') or matchw(NAMN, '*SPACE*') or matchw(NAMN, '*BARGE*') or matchw(NAMN, '*SEA*') or matchw(NAMN, '*MAN*') or matchw(NAMN, '*FORK*')) 
+
+var !allStruToExclude coll all STRU where ( matchw(NAMN, '*TROLEY*') or matchw(NAMN, '*TROLLEY*')  or matchw(NAMN, '*TRUCK*')  or matchw(NAME, '*VOL*') or matchw(NAMN, '*BOAT*') or matchw(NAMN, '*STUDY*') or matchw(NAMN, '*CARPET*') or matchw(NAMN, '*ZONE*') or matchw(NAMN, '*SPACE*') or matchw(NAMN, '*BARGE*') or matchw(NAMN, '*UTILITY_STATION*') or matchw(NAMN, '*SLING*')) 
+
+-- $P 'INCLUDE'
+-- do !ZONE val !ZONEs
+-- 	q name of $!zone
+-- enddo
+
+$P 'EXCLUDE'
+do !EquiToExclude val !allEquiToExclude
+	q name of $!EquiToExclude
+enddo
+
+do !StruToExclude val !allStruToExclude
+	q name of $!StruToExclude
+enddo
+
+
+
+$P 'Export success'
+alpha log END
+
+
+
+
+
+-- finish
+------------------------------EXPORT RVM END

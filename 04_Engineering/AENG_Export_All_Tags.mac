@@ -1,0 +1,35 @@
+TAGS
+CONSOLE SHOW
+!a = object DATETIME()
+!s = !a.date().string() + '/' + !a.MONTH().STRING() + '/' + !a.YEAR().STRING() + ' ' + !a.HOUR().STRING() +':'+  !a.MINUTE().STRING()+':'+  !a.SECOND().STRING()
+-- !logpath = '/\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Logs\Aeng\Aeng_log' + !s + '.log'
+-- alpha log $!logpath $
+
+var !mdb MDB
+if(matchw(!mdb,'*BH*')) then
+	!pckg = 'EPCIC12'
+elseif(matchw(!mdb,'*CPP*'))then
+	!pckg = 'EPCIC13'
+else
+	!pckg = 'EPCIC11'
+endif
+	
+!fileName = '\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\AEng\' + !pckg + '_AENG_Tagged_Items.csv'
+
+var !all coll all engitem where ( isnamed eq t and not(EXCLEL) and not(acttype eq ':ManholePhysical') and not(acttype eq ':ProcessNozzlePhysical') and not(acttype eq ':UtilityLine') and not(acttype eq ':PROPID') and not(acttype eq ':StreamLine')  and not(acttype eq ':TagToDocumentID')  and not(acttype eq ':TagToTagID') and not(matchw(NAME, '*-TR-*')) and not (matchw(NAME, '*-DEM')))
+
+!items = object ARRAY()
+!items.append('NAME;ACTTYPE;DATE')
+
+do !obj val !all
+	!item = OBJECT DBREF(!obj)
+	!items.append(!item.namn+ ';' + !item.acttype + ';' + !s)
+enddo
+!file = object FILE(!fileName)
+!file.WriteFile('OVERWRITE', !items)
+
+
+-- alpha log end
+
+FINISH
+

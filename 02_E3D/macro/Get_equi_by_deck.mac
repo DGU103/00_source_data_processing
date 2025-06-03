@@ -1,0 +1,43 @@
+DESIGN
+
+var !allzones coll all ZONE 
+-- var !allequi coll all equi where (matchw(NAMN of ZONE, |*-MEC-DE*| )) for world
+do !zone val !allzones
+q var !zone
+    var !allequi append coll all equi for $!zone
+enddo
+var !mdb MDB
+!ExportDir = '\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\E3D'
+
+if (matchw(!mdb, |*EPCIC13*|)) then
+	!fileName = !ExportDir + '\EPCIC13-Equipment_report.csv'
+elseif (matchw(!mdb, |*EPCIC12*|)) then
+	!fileName = !ExportDir + '\EPCIC12-Equipment_report.csv'
+elseif (matchw(!mdb, |*EPCIC11*|)) then
+	!fileName = !ExportDir + '\EPCIC11-Equipment_report.csv'
+endif
+!file = object FILE(!fileName)
+
+!items = object ARRAY()
+!items.append('Tag;Platform;Deck level;LENGTH;WIDTH;ELEVATION')
+
+
+do !equi val !allequi
+    var !name NAMN of $!equi
+
+    var !site NAMN of site of $!equi
+    !platform = !site.split('-')[1].substring(1,2)
+    !deck = !site.split('-')[1].substring(3,5)
+    var !extent wvol of $!equi 
+	skip if !extent eq 'unset'
+	!extentList  = !extent.split()
+	!start       = object POSITION('E ' & !extentList[1] & ' N ' &  !extentList[2] & ' U ' &  !extentList[3] & ' WRT WORLD')
+	!end         = object POSITION('E ' & !extentList[4] & ' N ' &  !extentList[5] & ' U ' &  !extentList[6] & ' WRT WORLD')
+	!volume      = object VOLUME(!start, !end)
+
+    !items.append(!name + ';'+ !platform + ';' + !deck + ';'+ !volume.box().XLENGTH.string() +';'+ !volume.box().YLENGTH.string() +';'+ !volume.box().ZLENGTH.string() +';'+  !volume.box().POSITION.UP.string())
+
+
+enddo
+$p 'Eport of report completed'
+!file.WriteFile('OVERWRITE', !items)

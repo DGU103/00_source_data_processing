@@ -1,0 +1,57 @@
+DESIGN
+-- CONSOLE SHOW
+!a = object DATETIME()
+!s = !a.date().string() + '/' + !a.MONTH().STRING() + '/' + !a.YEAR().STRING() + ' ' + !a.HOUR().STRING() +':'+  !a.MINUTE().STRING()+':'+  !a.SECOND().STRING()
+!logtimestamp = !a.date().string() + '-' + !a.MONTH().STRING() + '-' + !a.YEAR().STRING() + '_' + !a.HOUR().STRING() +'-'+  !a.MINUTE().STRING()+'-'+  !a.SECOND().STRING()
+
+
+var !mdb MDB
+
+!pckg = SUBSTRING(!mdb,2)
+!logpath = '/\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\E3D\log\'+ !logtimestamp + '_' + !pckg + '.log'
+alpha log $!logpath 
+
+!pckg = SUBSTRING(!mdb,7)
+!fileName = '\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\E3D\Tagged\' + !pckg + '-E3D-Tagged-Items.csv'
+!file = object FILE(!fileName)
+
+!header = object ARRAY()
+!header.append('NAME;PARENT;ACTTYPE;DATE;DESCRIPTION')
+!file.WriteFile('OVERWRITE', !header)
+var !sites coll all SITE where (not(matchw(namn, |*SUP*|)) and (matchw(namn, |BJ*|) or matchw(namn, |BK*|) or matchw(namn, |BH*|) or matchw(namn, |LA*|) or matchw(namn, |MA*|) or matchw(namn, |PA*|) or matchw(namn, |QA*|) or matchw(namn, |RA*|) or matchw(namn, |TA*|) or matchw(namn, |UA*|) or matchw(namn, |WA*|) or matchw(namn, |XA*|)))
+do !site val !sites
+	q NAME of $!site
+	var !all coll all (PIPE CABLE EQUI PCOM MESH DAMP INST VALV GRIL VTWA STRU FRMW ATTA FILT SUBE BOX BEND GASK BATT TEE OLET CWAY) where (isnamed eq true ) for $!site
+	
+	!items = object ARRAY()
+
+	do !obj val !all
+		!item = OBJECT DBREF(!obj)
+		-- !desc = !item.desc
+		-- handle any
+		-- endhandle
+		!items.append(!item.namn + ';' + !item.parent.namn + ';' + !item.acttype + ';' + !s + ';' )
+	enddo
+	!file.WriteFile('APPEND', !items)
+enddo
+-- var !all coll all (INST EQUI PCOM PIPE CWAY HVAC VALV FRMW) where (isnamed eq true )
+
+-- !items = object ARRAY()
+-- q var !all.size()
+-- do !obj val !all
+-- 	!item = OBJECT DBREF(!obj)
+-- 	!desc = !item.desc
+-- 	handle any
+-- 	endhandle
+-- 	!items.append(!item.namn + ';' + !item.parent.namn + ';' + !item.acttype + ';' + !s + ';' + !desc)
+-- enddo
+!eof = object ARRAY()
+!eof.append('END OF DATA;;;;')
+!file.WriteFile('APPEND', !eof)
+
+
+$p 'JOB COMPLETE'
+alpha log end
+
+FINISH
+

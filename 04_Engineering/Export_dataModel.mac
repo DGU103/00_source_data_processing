@@ -1,0 +1,39 @@
+-- TAGS
+
+!a = object DATETIME()
+!s = !a.YEAR().string() + '-' + !a.MONTH().STRING() + '-' + !a.date().STRING() + '_' + !a.HOUR().STRING() +'-'+  !a.MINUTE().STRING()+'-'+  !a.SECOND().STRING()
+!logpath = '/\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Logs\Aeng\Lexicon_' + !s + '.log'
+alpha log $!logpath
+alpha log end
+
+!fileName = '\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\AEng\data-model.csv'
+
+
+!wld = mem of world
+
+!all = object array()
+
+do !mem val !wld
+	--q var !mem
+	var !d coll all UDA for $!mem
+	do !g val !d
+		!all.append(!g)
+	enddo
+enddo
+-- q var !all[1]
+
+!records = object ARRAY()
+-- !newline = '
+-- '
+
+
+!records.append('UDA_NAME;UDET_NAME')
+
+do !obj val !all
+	!item = OBJECT DBREF(!obj)
+	do !udet val !item.Elelist 
+		!records.append(!item.namn + ';' + !udet)
+	enddo
+enddo
+!file = object FILE( !fileName )
+!file.WriteFile('OVERWRITE', !records)

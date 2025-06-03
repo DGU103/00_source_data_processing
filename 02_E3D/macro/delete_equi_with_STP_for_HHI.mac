@@ -1,0 +1,14 @@
+var !allequi coll all equi where (dbname eq 'GEN/GENERAL-001')
+
+do !equi val !allequi
+	var !item NAMN of $!equi
+	var !equitodelete coll all equi where (NAMN eq !item and dbname ne 'GEN/GENERAL-001')
+	$!equitodelete[1]
+	handle any
+		skip
+	endhandle
+	q NAMN OF CE
+	unlock ALL
+	DELETE EQUI
+	savework
+enddo

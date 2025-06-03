@@ -1,0 +1,137 @@
+﻿
+--Выгрузка RVM
+design
+console show 
+EXPORT REPR ON
+EXPORT ENCODING UTFEIGHT
+EXPORT IMPLIED TUBE INTO SEP CONT
+REPRESENTATION DARCTOLERANCE 20
+REPRESENTATION HOLE ON
+REPRESENTATION PNODE OFF
+REPRESENTATION SNODE OFF
+REPRESENTATION TUBE ON
+REPRESENTATION INSU OFF
+REPRESENTATION OBST OFF
+REPRESENTATION LEVE 6
+REPRESENTATION LEVE PIPE 6
+REPRESENTATION LEVE NOZZ 6
+REPRESENTATION LEVE STRU 6
+EXPORT HOLES ON
+EXPORT AUTOCOLOUR ON
+EXPORT AUTOCOLOUR RESET
+
+
+
+var !ExportDir '/\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\E3D\3DModel\Export_by_ZONES'
+
+-- var !ExportDir '\\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\3D_MODELS'
+-- SYSCOM 'IF not EXIST $!ExportDir md ""$!ExportDir'$m
+
+
+-- Writedown log
+------------------------------EXPORT RVM
+var !mdb MDB
+!mdb = !mdb.replace('/','')
+-- !gpsetid = object dbref('/EPCIC13-GPSET')
+
+
+if (matchw(!mdb, |*EPCIC13*|)) then
+	!fileName = !ExportDir + '\ASBJ_3D_MODEL.rvm'
+elseif (matchw(!mdb, |*EPCIC12*|)) then
+	!fileName = !ExportDir + '\ASBH_3D_MODEL.rvm'
+elseif (matchw(!mdb, |*LA*|)) then
+	!fileName = !ExportDir + '\ASLA_3D_MODEL.rvm'
+elseif (matchw(!mdb, |*MA*|)) then
+	!fileName = !ExportDir + '\ASMA_3D_MODEL.rvm'
+elseif (matchw(!mdb, |*QA*|)) then
+	!fileName = !ExportDir + '\ASQA_3D_MODEL.rvm'
+	!logfile = !ExportDir + '\log\ASQA_3D_MODEL.log'
+elseif (matchw(!mdb, |*PA*|)) then
+	!fileName = !ExportDir + '\ASPA_3D_MODEL.rvm'
+elseif (matchw(!mdb, |*RA*|)) then
+	!fileName = !ExportDir + '\ASRA_3D_MODEL.rvm'
+elseif (matchw(!mdb, |*TA*|)) then
+	!fileName = !ExportDir + '\ASTA_3D_MODEL.rvm'
+elseif (matchw(!mdb, |*UA*|)) then
+	!fileName = !ExportDir + '\ASUA_3D_MODEL.rvm'
+elseif (matchw(!mdb, |*WA*|)) then
+	!fileName = !ExportDir + '\ASWA_3D_MODEL.rvm'
+elseif (matchw(!mdb, |*XA*|)) then
+	!fileName = !ExportDir + '\ASXA_3D_MODEL.rvm'
+endif
+!logfile = '/\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\E3D\log\'+!mdb+'.log'
+alpha log $!logfile overw
+
+-- var !SITEs coll all SITE with (matchw(NAMN, |BJ*DE|) or matchw(NAMN, |BH*DE|) or matchw(NAMN, |LA*DE|) or matchw(NAMN, |MA*DE|) or matchw(NAMN, |PA*DE|) or matchw(NAMN, |QA*DE|) or matchw(NAMN, |RA*DE|) or matchw(NAMN, |TA*DE|) or matchw(NAMN, |UA*DE|) or matchw(NAMN, |WA*DE|) or matchw(NAMN, |XA*DE|) and not(matchw(NAMN, |*MIE*|)))
+-- var !SITEs coll all SITE with (matchw(NAMN, |*-ELE-DE|))
+var !items coll all ZONE where (matchw(name, |*SUPP*| ) )
+
+-- do !SITE val !SITEs 
+-- 	var !items APPEND coll ALL item WITH ((MATCHWILD(NAME , '*-DE/*' ) AND NOT MATCHWILD ( ATTRIB NAME , '*BJBR*' ) AND NOT MATCHWILD ( ATTRIB NAME , '*MISC*' ) AND NOT MATCHWILD ( ATTRIB NAME , '*STUDY*' ) AND NOT MATCHWILD ( ATTRIB NAME , '*CRANEMV*' ) AND NOT MATCHWILD ( ATTRIB NAME , '*CABLE*' ) AND NOT MATCHWILD ( ATTRIB NAME , '*OBS*' ) AND NOT MATCHWILD ( ATTRIB NAME , '*WAY*' ) AND ATTRIB MCOU NEQ 0 )) FOR $!SITE
+-- enddo
+
+-- var !items coll ALL EQUI for /RYA-BJ-VendorPackages
+-- do !SITE val !SITEs
+-- 	var !SITEName NAMN of $!SITE
+-- 	!fileName = '/'+!ExportDir + '\' + !SITEName.replace('/','_') + '.rvm'	
+	
+-- 	EXPORT EXCLUDE ALL FIXING
+-- 	EXPORT EXCLUDE ALL CABLE
+-- 	EXPORT EXCLUDE ALL POLYHEDRON
+-- 	EXPORT EXCLUDE ALL EQUI WITH (MATCHW(name, '*_T'))
+-- 	EXPORT FILE $!fileName
+-- 	q name of $!SITE
+-- 	EXPORT $!SITE
+-- 	EXPORT FINISH
+-- enddo
+	-- EXPORT EXCLUDE ALL FIXING
+	-- EXPORT EXCLUDE ALL CABLE
+	-- EXPORT EXCLUDE ALL POLYHEDRON
+	-- EXPORT EXCLUDE all GRIDWL 
+	-- EXPORT EXCLUDE ALL AIDGRO 
+	-- EXPORT EXCLUDE ALL SITE where (matchw(NAMN, |*-LQ*|) or matchw(NAMN, |*-BASE*|) or matchw(NAMN, |*-MIE-DE|) or matchw(NAMN, |*STUDY*|))
+	-- EXPORT EXCLUDE all ZONE where (matchw(NAMN, |*_T|) or matchw(NAMN, |*_C|)  or matchw(NAMN, |*_F|)  or matchw(NAMN, |*BARGE*|) or matchw(NAMN, |*HSE*MISC*|) or matchw(NAMN, |*CABL*|))  
+	-- EXPORT EXCLUDE ALL STRU where ( matchw(NAMN, '*TROLEY*') or matchw(NAMN, '*TROLLEY*')  or matchw(NAMN, '*TRUCK*')  or matchw(NAME, '*VOL*') or matchw(NAMN, '*BOAT*') or matchw(NAMN, '*STUDY*') or matchw(NAMN, '*CARPET*') or matchw(NAMN, '*ZONE*') or matchw(NAMN, '*SPACE*') or matchw(NAMN, '*BARGE*') or matchw(NAMN, '*UTILITY_STATION*') or matchw(NAMN, '*SLING*')) 
+	-- EXPORT EXCLUDE ALL EQUI where ( matchw(NAMN, '*SCAL*') or matchw(NAMN, '*MOBILE*') or matchw(NAMN, '*TROLEY*') or matchw(NAMN, '*TROLLEY*')  or matchw(NAMN, '*TRUCK*')  or matchw(NAME, '*VOL*') or matchw(NAMN, '*BOAT*') or matchw(NAMN, '*STUDY*') or matchw(NAMN, '*CARPET*') or matchw(NAMN, '*ZONE*') or matchw(NAMN, '*SPACE*') or matchw(NAMN, '*BARGE*') or matchw(NAMN, '*SEA*') or matchw(NAMN, '*MAN*') or matchw(NAMN, '*FORK*')) 
+	!fileName = !ExportDir + '\'  + 'supports_no_fixings.rvm'		
+do !item val !items
+	-- var !itemName NAMN of $!item
+
+	EXPORT FILE $!fileName
+	EXPORT EXCLUDE ALL FIXING
+	q name of $!item
+	EXPORT $!item
+
+enddo
+
+	EXPORT FINISH	
+
+-- ## Export by SITEs ## --
+-- var !SITEs coll all SITE with (matchw(NAMN, |BJ*DE| ))
+-- do !SITE val !SITEs 
+-- 	!sitename = namn of $!SITE
+-- 	!fileName = !ExportDir + '\' + !sitename + '.rvm'
+-- 	EXPORT FILE "$!fileName"
+-- 	-- export exclude all fixing with matchw ( name of suppo, '/Copy-(2)-of-PS-01-13005' )
+-- 	-- export exclude all fixing with matchw ( name of suppo, '/ASBJA-SPS-AL3-0051' )
+-- 	-- export exclude all fixing with matchw ( name of suppo, '/PS-01-14698' )
+-- 	do !item val mem of $!SITE
+-- 		skip if matchw(NAMN of $!item, |*MISC*|)
+-- 		skip if matchw(NAMN of $!item, |*STUDY*|)
+-- 		skip if not(matchw(NAME of $!item, |*BJ*DE*|))
+-- 		EXPORT $!item
+-- 	enddo
+-- 	EXPORT FINISH
+-- enddo
+
+$p END EXPORT
+alpha log END
+-- finish
+------------------------------EXPORT RVM END
+-- Endlog
+
+--file "$!ExportDir\3dmodels\trigger.start"
+--file end
+
+quit 
+finish

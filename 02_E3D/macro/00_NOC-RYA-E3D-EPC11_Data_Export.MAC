@@ -1,0 +1,41 @@
+--  **********************************************************************************************
+--  SPI         : (c) COPYRIGHT 2015 TO CURRENT YEAR
+--  FILENAME    : RYA-Run-ReportMacro.mac
+--  WRITTEN BY  : Anantha
+--  DATE        : 18 Feb 2024
+--  DESCRIPTION : Run Daily Report Report to Validate Model
+--              :
+--              :
+--  **********************************************************************************************
+--  NOTES       :
+--              :
+--              :
+--  **********************************************************************************************
+--  
+DESIGN
+Trace off
+
+$* Run all Report Macro
+$p Macro start
+-- Modeification
+
+
+$m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC11-E3D-Tagged-Items.rep
+-- $m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC11-ELE-Earth-Bar-Naming.rep
+-- $m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC11-ELE-MCT-Naming.rep
+-- $m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC11-ELE-Support-Naming.rep
+-- $m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC11-ELE-Tray-Naming.rep
+-- $m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC11-EQUI-Trim-Naming.rep
+-- $m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC11-INS-MCT-Naming.rep
+-- $m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC11-INS-Support-Naming.rep
+-- $m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC11-INS-Tray-Naming.rep
+-- $m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC11-Pipe-Support-Naming.rep
+-- $m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC11-TEL-Tray-Naming.rep
+
+-- $m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC11-Catalog-Naming-1.rep
+-- $m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC11-Catalog-Naming-2.rep
+-- $m /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Batch\E3D\EPCIC11-Catalog-Naming-3.rep
+
+$p Macro End
+
+FINISH

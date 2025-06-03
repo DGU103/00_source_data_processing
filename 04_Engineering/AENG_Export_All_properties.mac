@@ -1,0 +1,196 @@
+TAGS
+CONSOLE SHOW
+
+!a = object DATETIME()
+!s = !a.YEAR().STRING() + '/' + !a.MONTH().STRING() + '/' + !a.date().STRING() + ' ' + !a.HOUR().STRING() + ':' + !a.MINUTE().STRING() + ':' + !a.SECOND().STRING()
+
+!logfiletimestamp = !a.YEAR().STRING() + '-' + !a.MONTH().STRING() + '-' + !a.date().STRING() + '_' + !a.HOUR().STRING() + '.' + !a.MINUTE().STRING() + '.' + !a.SECOND().STRING()
+
+var !mdb MDB
+if (matchw(!mdb, '*BH*')) then
+    -- !pckg = !mdb.substring(2,18)
+    !pckg = 'EPC12' 
+elseif (matchw(!mdb, '*CPP*')) then
+    -- !pckg = !mdb.substring(2,18)
+    !pckg = 'EPC13' 
+elseif (matchw(!mdb, '*DC*')) then
+    -- var !b MDB
+	 --!pckg = !mdb.substring(2,18)
+    !pckg = !mdb
+    -- !pckg = 'EPC11'
+endif
+
+!logpath = '/\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\AEng\log\' + !logfiletimestamp + '-' + !pckg + '.log'
+alpha log $!logpath 
+handle (61,275)
+    alpha log end 
+    alpha log $!logpath 
+endhandle
+
+var !engwlds coll all ENGGRP
+do !engwld val !engwlds
+	var !all append coll all engitem where  ( isnamed eq t and not(EXCLEL) and not(acttype eq ':ManholePhysical') and not(acttype eq ':ProcessNozzlePhysical') and not(acttype eq ':UtilityLine') and not(acttype eq ':PROPID') and not(acttype eq ':StreamLine')  and not(acttype eq ':TagToDocumentID')  and not(acttype eq ':TagToTagID') and not(matchw(NAME, '*-TR-*'))) for $!engwld
+enddo
+
+!items = object ARRAY()
+!newline = '
+'
+!items.append('TagID;Type;AttributeID;AttributeValue;UnitOfMeasureID')
+!size = !all.size()
+ 
+!reportCounter = ($1 - 1) + 1000
+
+do !i from $1 to !all.size() by 1
+    !obj = !all[!i] 
+    !item = object DBREF(!obj)
+ 
+    do !b val !item.ATTRIBUTES()
+            !attInstance = object attribute('$!b')
+            handle any
+                $P "[ERROR] Cannot get attribute instance for Att: $!b"
+                SKIP
+            endhandle
+            
+        !val = ''
+        !uom = ''
+        if (!attInstance.ISUDA()) then
+            skip if !b eq ':DeckPlatformCodeUDA'
+            skip if !b eq ':LocationUDA'
+            skip if !b eq ':SiteUDA'
+            skip if !b eq ':PlatformUDA'
+            skip if !b eq ':ModuleUDA'
+            skip if !b eq ':FunctionLocationCodeUDA'
+
+
+            !item.attribute('$!b').string()
+            handle any
+                $P "[ERROR] Cannot covert attribute to STRING for Att: $!b"
+                SKIP
+            endhandle
+            -- handle (2,779)
+            -- 	SKIP
+            -- elsehandle (99,532)
+            -- 	-- $p "[ERROR] Attribute cannotbe found. Missing database in MDB?"
+            -- 	SKIP
+            -- endhandle
+            skip if !item.attribute('$!b').string() eq 'unset'
+            --handle (2,204)
+            --endhandle
+            skip if !item.attribute('$!b').string() eq '-'
+            -- handle (2,204)
+            -- endhandle
+            skip if !item.attribute('$!b').string() eq ''
+                --handle (2,204)
+            -- endhandle
+            !val = !item.attribute('$!b').string()
+            
+            if (!attInstance.type() eq 'REAL' and !item.attribute('$!b').string() neq 'ARRAY') then
+                !val = !item.attribute('$!b').real().value().string()
+                handle any
+                    $P '[ERROR] Cannot convert attribute to STRING. Tag: $!item . Att: $!b'
+                    SKIP
+                endhandle
+
+                !uom = !item.attribute('$!b').real().units().string()
+                handle any
+                    $P '[ERROR] Cannot get UoM for  Tag: $!item . Att: $!b'
+                    SKIP
+                endhandle
+            elseif (!attInstance.type() eq 'REAL' and !item.attribute('$!b').string() eq 'ARRAY') then
+                !val = !item.attribute('$!b')[0].string() + !item.attribute('$!b')[1].string() + !item.attribute('$!b')[2].string()
+                handle any
+                    $P '[ERROR] Cannot get concatinate value for Tag: $!item . Att: $!b'
+                    SKIP
+                endhandle
+            elseif (!attInstance.type() eq 'TEXT') then
+                !val = !item.attribute('$!b')
+                handle any
+                    $P "[ERROR] Cannot retrieve attribute. Tag: $!item . Att: $!b"
+                    SKIP
+                endhandle
+            elseif (!attInstance.type() eq 'REFERENCE') then
+                !val = !item.attribute('$!b')[0].string() + !item.attribute('$!b')[1].string() + !item.attribute('$!b')[2].string()
+                handle any
+                    $P "[ERROR] Cannot retrieve attribute. Tag: $!item . Att: $!b"
+                    SKIP
+                endhandle
+            elseif (!attInstance.type() eq 'LOGICAL') then
+                !val = !item.attribute('$!b').string()
+                handle any
+                    $P "[ERROR] Cannot retrieve attribute logical value for Tag: $!item . Att: $!b"
+                    SKIP
+                endhandle
+            else
+                $P "[ERROR] Data type not handled for Tag: $!item . Att: $!b"
+                SKIP
+            endif
+            !c = !b + 'UDA'
+
+        else
+            !c = !b
+        endif
+        
+        -- skip if matchw(!val, '*DBATT*')
+
+        !text = !val.replace(!newline, | | ).replace(!newline, | | ).replace(!newline, | | ).replace( |;| , |,| ).replace( |'| , | |)
+
+        if (!text.length() gt 1000) then
+            !text = !text.substring(1,1000)
+        endif
+
+        !valuetoadd = !item.namn + |;| + !item.acttype + |;| + !c + |;| + !text + |;| + !uom
+        handle any
+            !errorMessage = !item.namn + |;| + !item.acttype + |;| + !c
+            $p 'Cannot calculate the value for $!errorMessage'
+            SKIP
+        endhandle
+
+        !items.append(!valuetoadd)
+        handle any
+        endhandle
+    enddo
+
+    if (!i eq !all.size()) then
+        $p $!i of $!size
+        !fileName = '\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\AEng\PROPs\' + !pckg + '_Property_Register_part_' + !i.string() + '.csv'
+        !file = object FILE(!fileName)
+        !file.WriteFile('OVERWRITE', !items)
+			!eof = object ARRAY()
+			!eof.append('END OF DATA;;;;')
+			!file.WriteFile('APPEND', !eof)
+        --!file.writerecord('EXPORT COMPLETED')
+        !items.clear()
+    elseif (!i eq !reportCounter) then
+        $p $!i of $!size
+        !fileName = '\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\AEng\PROPs\' + !pckg + '_Property_Register_part_' + !i.string() + '.csv'
+        !file = object FILE(!fileName)
+        !file.WriteFile('OVERWRITE', !items)
+        !items.clear()
+        !items.append('TagID;Type;AttributeID;AttributeValue;UnitOfMeasureID')
+        !reportCounter = !reportCounter + 1000
+    endif
+enddo
+
+!newpart = !reportCounter - 1000
+
+!finalBatchFile = '\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\AEng\PROPs\' + !pckg + '_Property_Register_part_' + !newpart.string() + '.csv'
+
+if (!items.size() gt 1) then
+    !file = object FILE(!finalBatchFile)
+    !file.WriteFile('OVERWRITE', !items)
+
+	!eof = object ARRAY()
+	!eof.append('END OF DATA;;;;')
+	!file.WriteFile('APPEND', !eof)
+endif
+
+-- !log.CLOSE()
+-- q var !items
+
+-- !fileName = '\\qamv3-sapp243\GDP\GDP_StagingArea\MP\AENG_PROPERTIES\' + !pckg + '_Property_Register.csv'
+-- !file = object FILE(!fileName)
+-- !file.WriteFile('OVERWRITE', !items)
+
+alpha log end
+FINISH
+

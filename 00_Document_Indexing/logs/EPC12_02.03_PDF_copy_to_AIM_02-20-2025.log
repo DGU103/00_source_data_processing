@@ -1,0 +1,122 @@
+02-20-2025 14:32:46 [INFO] Collecting PDF files from the Source folder...
+02-20-2025 14:35:28 [INFO] Collected PDF files count is 3407
+02-20-2025 14:35:28 [INFO] Reading CSV mapping file from \\qamv3-sapp243\GDP\GDP_Config\Configuration\mapping.csv
+02-20-2025 14:35:46 [INFO] Copying PDFs from document indexing folder. Please wait...
+02-20-2025 15:03:10 [DEBUG] Doc Source Folder is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:03:10 [DEBUG] Revision of the RPBR1-LTE1-ASBHA-01-083047-0013.pdf is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:03:10 [DEBUG] Source path is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHA-01-083047-0013
+02-20-2025 15:03:10 [DEBUG] Destination path is \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-01-083047-0013.pdf
+02-20-2025 15:03:11 [DEBUG] Removing Item : \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-01-083047-0013.pdf
+02-20-2025 15:03:11 [DEBUG] Copying item FROM \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHA-01-083047-0013 INTO \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-01-083047-0013.pdf
+02-20-2025 15:03:11 [DEBUG] Doc Source Folder is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:03:11 [DEBUG] Revision of the RPBR1-LTE1-ASBHA-10-R65046-0001.pdf is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:03:11 [DEBUG] Source path is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHA-10-R65046-0001
+02-20-2025 15:03:11 [DEBUG] Destination path is \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-10-R65046-0001.pdf
+02-20-2025 15:03:11 [DEBUG] Removing Item : \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-10-R65046-0001.pdf
+02-20-2025 15:03:11 [DEBUG] Copying item FROM \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHA-10-R65046-0001 INTO \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-10-R65046-0001.pdf
+02-20-2025 15:03:12 [DEBUG] Doc Source Folder is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:03:12 [DEBUG] Revision of the RPBR1-LTE1-ASBYY-09-00052-6060.pdf is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:03:12 [DEBUG] Source path is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBYY-09-00052-6060
+02-20-2025 15:03:12 [DEBUG] Destination path is \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBYY-09-00052-6060.pdf
+02-20-2025 15:03:12 [DEBUG] Removing Item : \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBYY-09-00052-6060.pdf
+02-20-2025 15:03:12 [DEBUG] Copying item FROM \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBYY-09-00052-6060 INTO \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBYY-09-00052-6060.pdf
+02-20-2025 15:03:13 [DEBUG] Doc Source Folder is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:03:13 [DEBUG] Revision of the RPBR1-LTE1-ASBHA-10-Q85009-0001.pdf is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:03:13 [DEBUG] Source path is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHA-10-Q85009-0001
+02-20-2025 15:03:13 [DEBUG] Destination path is \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-10-Q85009-0001.pdf
+02-20-2025 15:03:13 [DEBUG] Removing Item : \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-10-Q85009-0001.pdf
+02-20-2025 15:03:13 [DEBUG] Copying item FROM \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHA-10-Q85009-0001 INTO \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-10-Q85009-0001.pdf
+02-20-2025 15:05:25 [DEBUG] Doc Source Folder is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:25 [DEBUG] Revision of the RPBR1-LTE1-ASBHY-01-080018-0002.pdf is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:25 [DEBUG] Source path is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHY-01-080018-0002
+02-20-2025 15:05:25 [DEBUG] Destination path is \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHY-01-080018-0002.pdf
+02-20-2025 15:05:25 [DEBUG] Removing Item : \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHY-01-080018-0002.pdf
+02-20-2025 15:05:25 [DEBUG] Copying item FROM \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHY-01-080018-0002 INTO \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHY-01-080018-0002.pdf
+02-20-2025 15:05:25 [DEBUG] Doc Source Folder is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:25 [DEBUG] Revision of the RPBR1-LTE1-ASBHY-01-080018-0001.pdf is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:25 [DEBUG] Source path is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHY-01-080018-0001
+02-20-2025 15:05:25 [DEBUG] Destination path is \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHY-01-080018-0001.pdf
+02-20-2025 15:05:26 [DEBUG] Removing Item : \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHY-01-080018-0001.pdf
+02-20-2025 15:05:26 [DEBUG] Copying item FROM \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHY-01-080018-0001 INTO \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHY-01-080018-0001.pdf
+02-20-2025 15:05:26 [DEBUG] Doc Source Folder is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:26 [DEBUG] Revision of the RPBR1-LTE1-ASBHA-83-113060-0001.pdf is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:26 [DEBUG] Source path is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHA-83-113060-0001
+02-20-2025 15:05:26 [DEBUG] Destination path is \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-83-113060-0001.pdf
+02-20-2025 15:05:26 [DEBUG] Removing Item : \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-83-113060-0001.pdf
+02-20-2025 15:05:27 [DEBUG] Copying item FROM \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHA-83-113060-0001 INTO \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-83-113060-0001.pdf
+02-20-2025 15:05:27 [DEBUG] Doc Source Folder is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:27 [DEBUG] Revision of the RPBR1-LTE1-ASBHA-10-R52161-0001.pdf is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:27 [DEBUG] Source path is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHA-10-R52161-0001
+02-20-2025 15:05:27 [DEBUG] Destination path is \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-10-R52161-0001.pdf
+02-20-2025 15:05:27 [DEBUG] Removing Item : \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-10-R52161-0001.pdf
+02-20-2025 15:05:27 [DEBUG] Copying item FROM \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHA-10-R52161-0001 INTO \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-10-R52161-0001.pdf
+02-20-2025 15:05:27 [DEBUG] Doc Source Folder is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:27 [DEBUG] Revision of the RPBR1-LTE1-ASBHA-01-083067-0004.pdf is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:27 [DEBUG] Source path is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHA-01-083067-0004
+02-20-2025 15:05:27 [DEBUG] Destination path is \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-01-083067-0004.pdf
+02-20-2025 15:05:27 [DEBUG] Removing Item : \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-01-083067-0004.pdf
+02-20-2025 15:05:28 [DEBUG] Copying item FROM \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHA-01-083067-0004 INTO \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-01-083067-0004.pdf
+02-20-2025 15:05:28 [DEBUG] Doc Source Folder is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:28 [DEBUG] Revision of the RPBR1-LTE1-ASBHA-03-463027-0001.pdf is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:28 [DEBUG] Source path is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHA-03-463027-0001
+02-20-2025 15:05:28 [DEBUG] Destination path is \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-03-463027-0001.pdf
+02-20-2025 15:05:43 [DEBUG] Removing Item : \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-03-463027-0001.pdf
+02-20-2025 15:05:43 [DEBUG] Copying item FROM \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHA-03-463027-0001 INTO \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-03-463027-0001.pdf
+02-20-2025 15:05:43 [DEBUG] Doc Source Folder is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:43 [DEBUG] Revision of the RPBR1-LTE1-ASBYY-10-IJ9022-0001.pdf is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:43 [DEBUG] Source path is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBYY-10-IJ9022-0001
+02-20-2025 15:05:43 [DEBUG] Destination path is \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBYY-10-IJ9022-0001.pdf
+02-20-2025 15:05:44 [DEBUG] Removing Item : \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBYY-10-IJ9022-0001.pdf
+02-20-2025 15:05:44 [DEBUG] Copying item FROM \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBYY-10-IJ9022-0001 INTO \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBYY-10-IJ9022-0001.pdf
+02-20-2025 15:05:44 [DEBUG] Doc Source Folder is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:44 [DEBUG] Revision of the RPBR1-LTE1-ASBHA-01-083278-0001.pdf is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:44 [DEBUG] Source path is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHA-01-083278-0001
+02-20-2025 15:05:44 [DEBUG] Destination path is \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-01-083278-0001.pdf
+02-20-2025 15:05:45 [DEBUG] Removing Item : \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-01-083278-0001.pdf
+02-20-2025 15:05:45 [DEBUG] Copying item FROM \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHA-01-083278-0001 INTO \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-01-083278-0001.pdf
+02-20-2025 15:05:45 [DEBUG] Doc Source Folder is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:56 [DEBUG] Revision of the RPBR1-LTE1-ASBHA-07-193038-0006.pdf is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:56 [DEBUG] Source path is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHA-07-193038-0006
+02-20-2025 15:05:56 [DEBUG] Destination path is \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-07-193038-0006.pdf
+02-20-2025 15:05:57 [DEBUG] Removing Item : \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-07-193038-0006.pdf
+02-20-2025 15:05:57 [DEBUG] Copying item FROM \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHA-07-193038-0006 INTO \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHA-07-193038-0006.pdf
+02-20-2025 15:05:57 [DEBUG] Doc Source Folder is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:57 [DEBUG] Revision of the RPBR1-LTE1-ASBEA-07-00015-0083.pdf is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:57 [DEBUG] Source path is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBEA-07-00015-0083
+02-20-2025 15:05:57 [DEBUG] Destination path is \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBEA-07-00015-0083.pdf
+02-20-2025 15:05:57 [DEBUG] Removing Item : \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBEA-07-00015-0083.pdf
+02-20-2025 15:05:58 [DEBUG] Copying item FROM \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBEA-07-00015-0083 INTO \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBEA-07-00015-0083.pdf
+02-20-2025 15:05:58 [DEBUG] Doc Source Folder is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:58 [DEBUG] Revision of the RPBR1-LTE1-ASBHS-01-083028-0001.pdf is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:05:58 [DEBUG] Source path is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHS-01-083028-0001
+02-20-2025 15:05:58 [DEBUG] Destination path is \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHS-01-083028-0001.pdf
+02-20-2025 15:05:58 [DEBUG] Removing Item : \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHS-01-083028-0001.pdf
+02-20-2025 15:06:04 [DEBUG] Copying item FROM \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHS-01-083028-0001 INTO \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHS-01-083028-0001.pdf
+02-20-2025 15:06:04 [DEBUG] Doc Source Folder is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:06:04 [DEBUG] Revision of the RPBR1-LTE1-ASBHS-01-083151-0002.pdf is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:06:04 [DEBUG] Source path is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHS-01-083151-0002
+02-20-2025 15:06:04 [DEBUG] Destination path is \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHS-01-083151-0002.pdf
+02-20-2025 15:06:04 [DEBUG] Removing Item : \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHS-01-083151-0002.pdf
+02-20-2025 15:06:04 [DEBUG] Copying item FROM \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBHS-01-083151-0002 INTO \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBHS-01-083151-0002.pdf
+02-20-2025 15:06:04 [DEBUG] Doc Source Folder is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:06:05 [DEBUG] Revision of the RPBR1-LTE1-ASBGA-13-020010-0001.pdf is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:06:05 [DEBUG] Source path is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBGA-13-020010-0001
+02-20-2025 15:06:05 [DEBUG] Destination path is \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBGA-13-020010-0001.pdf
+02-20-2025 15:06:07 [DEBUG] Removing Item : \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBGA-13-020010-0001.pdf
+02-20-2025 15:06:07 [DEBUG] Copying item FROM \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBGA-13-020010-0001 INTO \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBGA-13-020010-0001.pdf
+02-20-2025 15:06:07 [DEBUG] Doc Source Folder is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:06:07 [DEBUG] Revision of the RPBR1-LTE1-ASBGA-13-200004-0001.pdf is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:06:07 [DEBUG] Source path is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBGA-13-200004-0001
+02-20-2025 15:06:07 [DEBUG] Destination path is \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBGA-13-200004-0001.pdf
+02-20-2025 15:06:07 [DEBUG] Copying item FROM \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASBGA-13-200004-0001 INTO \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASBGA-13-200004-0001.pdf
+02-20-2025 15:06:07 [DEBUG] Doc Source Folder is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:06:07 [DEBUG] Revision of the RPBR1-LTE1-ASYYY-04-273012-0016.pdf is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:06:07 [DEBUG] Source path is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASYYY-04-273012-0016
+02-20-2025 15:06:07 [DEBUG] Destination path is \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASYYY-04-273012-0016.pdf
+02-20-2025 15:06:08 [DEBUG] Removing Item : \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASYYY-04-273012-0016.pdf
+02-20-2025 15:06:08 [DEBUG] Copying item FROM \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\RPBR1-LTE1-ASYYY-04-273012-0016 INTO \\qamv3-sapp243\GDP\GDP_StagingArea\NATIVE\EDMS\RPBR1-LTE1-ASYYY-04-273012-0016.pdf
+02-20-2025 15:06:08 [DEBUG] Doc Source Folder is \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC12_Source\
+02-20-2025 15:06:32 [INFO] Collecting PDF files from the Source folder...
+02-20-2025 15:08:45 [INFO] Collected PDF files count is 3407
+02-20-2025 15:08:45 [INFO] Reading CSV mapping file from \\qamv3-sapp243\GDP\GDP_Config\Configuration\mapping.csv
+02-20-2025 15:09:08 [INFO] Copying PDFs from document indexing folder. Please wait...

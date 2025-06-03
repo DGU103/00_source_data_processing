@@ -1,0 +1,23 @@
+aid clear all
+-- rem all
+
+-- var !items coll all ZONE where (matchw(name of site, |*-DE*| ))
+var !items coll all for ce 
+
+do !item val !items
+	var !extent lvol of $!item 
+	handle any
+     skip
+    endhandle
+    
+	!extentList  = !extent.split()
+	!start       = object POSITION('E ' & !extentList[1] & ' N ' &  !extentList[2] & ' U ' &  !extentList[3] & ' WRT WORLD')
+	!end         = object POSITION('E ' & !extentList[4] & ' N ' &  !extentList[5] & ' U ' &  !extentList[6] & ' WRT WORLD')
+    
+    !volume      = object VOLUME(!start, !end)
+    
+    !box        = !volume.box()
+    var !nam namn of $!item 
+    -- AID BOX NUMBER 1 at $!<box.position>  XLENGTH $!<box.xLength> YLENGTH $!<box.yLength> ZLENGTH $!<box.zLength>
+AID LINE E $!<extentList[1]> N $!<extentList[2]> U $!<extentList[3]> TO E $!<extentList[4]> N $!<extentList[5]> U $!<extentList[6]>
+enddo

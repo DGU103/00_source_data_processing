@@ -1,0 +1,49 @@
+DESIGN
+CONSOLE show
+
+!tagIdstp = '/' + '$1' + '_VP'
+-- !tagId = '/' + '$1'
+
+$!tagIdstp 
+handle any
+
+    -- !pos = !!ce.position
+    -- !ori = !!ce.orientation
+    -- $!tagIdstp DELETE EQUI
+    -- handle any
+    -- endhandle
+
+    /EPC12_Vendor_STP
+    handle any
+    endhandle
+    /PACKAGES_STP
+    handle any
+    endhandle
+
+    NEW EQUI 
+    NAME $!tagIdstp
+    -- !importitem = object DBREF(!tagIdstp)
+    !importfile = object file('$2')
+    -- !logfileName = '\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\E3D\STP\Vendor_PKG_3D_Models\import_' + '$1'+ '.log'
+    !logfileName = '\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\E3D\STP\Vendor_PKG_3D_Models\import.log'
+
+    !logFile = object file(!logfileName)
+    !importTessTol = 5
+    IMP "$!<importFile>" TO $!tagIdstp AS EQUI LOG  "$!<logFile>"  CTOL $!importTessTol
+
+    -- $!tagIdstp 
+    -- !!ce.position = !pos
+    -- !!ce.orientation = !ori
+
+    -- var !all collect all (SUBE GENPRI) where isnamed for $!tagIdstp
+
+    -- do !item val !all
+    --     $!item
+    --     unname ce
+    -- enddo
+
+    SAVEWORK
+endhandle
+-- $m \\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\E3D\STP\EPC12_EQUI_POS.mac
+FINISH
+

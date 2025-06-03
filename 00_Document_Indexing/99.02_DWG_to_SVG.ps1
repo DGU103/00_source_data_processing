@@ -1,0 +1,10 @@
+
+# Add-Type -AssemblyName "Bricscad.ApplicationServices"
+# Add-Type -AssemblyName "Bricscad.EditorInput"
+# Add-Type -AssemblyName "Teigha.DatabaseServices"
+# Add-Type -AssemblyName "Teigha.GraphicsSystem"
+# Add-Type -AssemblyName "Teigha.Runtime"
+$as = Add-Type "C:\Program Files\Bricsys\BricsCAD V24 en_US\TD_Mgd.dll"
+# Import-Module "C:\Program Files\Bricsys\BricsCAD V24 en_US\TD_MgdBrep.dll"
+# Import-Module "C:\Program Files\Bricsys\BricsCAD V24 en_US\TD_MgdDbConstraints.dll"
+Import-Module "C:\Program Files\Bricsys\BricsCAD V24 en_US\BrxMgd.dll"

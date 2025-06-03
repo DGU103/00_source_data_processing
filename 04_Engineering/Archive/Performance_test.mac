@@ -1,0 +1,31 @@
+var !engwlds coll all ENGGRP
+!start = OBJECT FILE('C:\Users\mch107\Downloads\gitRep\DBS-PS_Aveva\00_source_data_processing\04_Engineering\Archive\file.start')
+!start.open('OVERWRITE')
+!startTime = OBJECT DATETIME()
+!start.WRITERECORD(!startTime.string())
+!start.close()
+
+do !engwld val !engwlds
+	var !all append coll all engitem where  ( isnamed eq t and not(EXCLEL) and not(acttype eq ':ManholePhysical') and not(acttype eq ':ProcessNozzlePhysical') and not(acttype eq ':UtilityLine') and not(acttype eq ':PROPID') and not(acttype eq ':StreamLine')  and not(acttype eq ':TagToDocumentID')  and not(acttype eq ':TagToTagID') and not(matchw(NAME, '*-TR-*'))) for $!engwld
+enddo
+-- do !i from 32000 to !all.size() by 1
+-- 	!obj = !all[!i]	
+-- 	!item = OBJECT DBREF(!obj)
+	
+-- 	do !b val !item.ATTRIBUTES()
+-- 		skip if !b eq ':DeckPlatformCodeUDA'
+-- 		skip if !b eq ':LocationUDA'
+-- 		skip if !b eq ':SiteUDA'
+-- 		skip if !b eq ':PlatformUDA'
+-- 		skip if !b eq ':ModuleUDA'
+-- 		skip if !b eq ':FunctionLocationCodeUDA'
+		
+-- 	enddo
+-- enddo
+!stop = OBJECT FILE('C:\Users\mch107\Downloads\gitRep\DBS-PS_Aveva\00_source_data_processing\04_Engineering\Archive\file.stop')
+!stop.open('OVERWRITE')
+!stopTime = OBJECT DATETIME()
+!stop.WRITERECORD(!stopTime.string())
+!stop.close()
+
+q var !all.size()

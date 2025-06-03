@@ -1,0 +1,40 @@
+"Error_code","Tag_number","Validation_Status","Validation_message","Service_message","NNG_Tag_format","Line_sequence_control","Tag_class","Tag_discipline","Tag_description","Status","Action","Location","sub_system"
+"#0009","ASBJA-FT-41XXX6","Not Valid","Class :FlowTransmitter cannot be mapped","Mapping procedure","NA",,":FlowTransmitter","Not identified","",,,"ASBJ",
+"#0009","ASBJA-FT-41XX11","Not Valid","Class :FlowTransmitter cannot be mapped","Mapping procedure","NA",,":FlowTransmitter","Not identified","",,,"ASBJ",
+"#0000","ASBJ-6""-OCS-400462-BX1","Valid","Pipeline  | Naming template: 'VAL_NT-7777;","Class based validation","Line",,":PipelinePhysical","Lines","Tags from P&IDs of AVEVA Diagrams",,,"ASBJ","40"
+"#0000","ASBJ-6""-OCS-400463-BX1","Valid","Pipeline  | Naming template: 'VAL_NT-7777;","Class based validation","Line",,":PipelinePhysical","Lines","Tags from P&IDs of AVEVA Diagrams",,,"ASBJ","40"
+"#0000","ASBJ-6""-OCS-400465-BX1","Valid","Pipeline  | Naming template: 'VAL_NT-7777;","Class based validation","Line",,":PipelinePhysical","Lines","Tags from P&IDs of AVEVA Diagrams",,,"ASBJ","40"
+"#0000","ASBJ-6""-OCS-400464-BX1","Valid","Pipeline  | Naming template: 'VAL_NT-7777;","Class based validation","Line",,":PipelinePhysical","Lines","Tags from P&IDs of AVEVA Diagrams",,,"ASBJ","40"
+"#0000","ASBJ-26""-FHS-400441-AD4","Valid","Pipeline  | Naming template: 'VAL_NT-7777;","Class based validation","Line",,":PipelinePhysical","Lines","Tags from P&IDs of AVEVA Diagrams",,,"ASBJ","40"
+"#0000","ASBJ-2""-DO-501012-AR1","Valid","Pipeline  | Naming template: 'VAL_NT-7777;","Class based validation","Line",,":PipelinePhysical","Lines","Tags from P&IDs of AVEVA Diagrams",,,"ASBJ","50"
+"#0000","ASBJ-2""-FLS-400204-AD4","Valid","Pipeline  | Naming template: 'VAL_NT-7777;","Class based validation","Line",,":PipelinePhysical","Lines","Tags from P&IDs of AVEVA Diagrams",,,"ASBJ","40"
+"#0000","ASBJ-3""-CPS-570201-BD1","Valid","Pipeline  | Naming template: 'VAL_NT-7777;","Class based validation","Line",,":PipelinePhysical","Lines","Tags from P&IDs of AVEVA Diagrams",,,"ASBJ","57"
+"#0000","ASBJ-3""-CPS-570202-BD1","Valid","Pipeline  | Naming template: 'VAL_NT-7777;","Class based validation","Line",,":PipelinePhysical","Lines","Tags from P&IDs of AVEVA Diagrams",,,"ASBJ","57"
+"#0000","ASBJ-2""-DO-501051-AR1","Valid","Pipeline  | Naming template: 'VAL_NT-7777;","Class based validation","Line",,":PipelinePhysical","Lines","Tags from P&IDs of AVEVA Diagrams",,,"ASBJ","50"
+"#0000","ASBJ-2""-CPS-340249-BX1","Valid","Pipeline  | Naming template: 'VAL_NT-7777;","Class based validation","Line",,":PipelinePhysical","Lines","Tags from P&IDs of AVEVA Diagrams",,,"ASBJ","34"
+"#0000","ASBJ-4""-DO-500032-AO1","Valid","Pipeline  | Naming template: 'VAL_NT-7777;","Class based validation","Line",,":PipelinePhysical","Lines","Tags from P&IDs of AVEVA Diagrams",,,"ASBJ","50"
+"#0000","ASBJ-2""-OD-570055-AD1","Valid","Pipeline  | Naming template: 'VAL_NT-7777;","Class based validation","Line",,":PipelinePhysical","Lines","Tags from P&IDs of AVEVA Diagrams",,,"ASBJ","57"
+"#0000","ASBJ-2""-OD-570054-AD1","Valid","Pipeline  | Naming template: 'VAL_NT-7777;","Class based validation","Line",,":PipelinePhysical","Lines","Tags from P&IDs of AVEVA Diagrams",,,"ASBJ","57"
+"#0000","ASBJ-2""-DO-570057-AR1","Valid","Pipeline  | Naming template: 'VAL_NT-7777;","Class based validation","Line",,":PipelinePhysical","Lines","Tags from P&IDs of AVEVA Diagrams",,,"ASBJ","57"
+"#0014","ASBJ-2""-DO-570056-AR1","Not Valid","Duplicated PipeLine sequence number found for: ASBJ*570056","Duplicated PipeLine sequence number","Line",,":PipelinePhysical","Lines","Tags from P&IDs of AVEVA Diagrams",,,"ASBJ",
+"#0012","ASBJ-12""-DO-501347-AR1","Not Valid","Duplicated Tag","Duplicated Tag","NA",,,"Not identified",,,,,
+"#0012","ASBJ-12""-DO-501347-AR1","Not Valid","Duplicated Tag","Duplicated Tag","NA",,,"Not identified",,,,,
+"#0014","ASBJ-12""-DO-501347-AR2","Not Valid","Duplicated PipeLine sequence number found for: ASBJ*501347","Duplicated PipeLine sequence number","Line",,":PipelinePhysical","Lines","Tags from P&IDs of AVEVA Diagrams",,,"ASBJ",
+"#0014","ASBJ-2""-DO-570056-AD1","Not Valid","Duplicated PipeLine sequence number found for: ASBJ*570056","Duplicated PipeLine sequence number","Line",,":PipelinePhysical","Lines","Tags from P&IDs of AVEVA Diagrams",,,"ASBJ",
+"#0000","ASBHA-SOV-391401B","Valid","Electro-Hydraulic Solenoid Valve  | Naming template: 'VAL_NT-0155;","Class based validation","Valves (Instrumentation)",,":SolenoidValvePhysical","Instrumentation","Tags from P&IDs of AVEVA Diagrams",,,"ASBH",""
+"#0009","ASLAA-CHV-290722","Not Valid","Class :CheckValvePhysical cannot be mapped","Mapping procedure","NA",,":CheckValvePhysical","Not identified","Tags from P&IDs of AVEVA Diagrams",,,"ASLA",
+"#0000","ASLAA-HCV-300232","Valid","Globe Valve  | Naming template: 'VAL_NT-0098;","Class based validation","Valves",,":NeedleValvePhysical","PVV","Tags from P&IDs of AVEVA Diagrams",,,"ASLA",""
+"#0001","ASBHA-DP-180100.3","Not Valid","Parent Tag  not found in current register","Parent Tag","Instrumentation",,":Signal","Instrumentation","Test",,,"ASBH",
+"#0000","ASBHA-DP-1801","Valid","Distribution Board  | Naming template: 'VAL_NT-0207_DP;","Class based validation","Electrical",,":DistributionBoardPhysical","Electrical","Test",,,"ASBH",""
+"#0000","ASBJA-XCV-341150.1","Valid","Signal | Naming template: 'VAL_NT-2222_Appendix_16;","Class based validation","Signal",,":Signal","Instrumentation","XCV COMMAND SIGNAL",,,"ASBJ",""
+"#0000","ASBJA-XCV-341150.2","Valid","Signal | Naming template: 'VAL_NT-2222_Appendix_16;","Class based validation","Signal",,":Signal","Instrumentation","XCV COMMAND SIGNAL",,,"ASBJ",""
+"#0000","ASBJA-XCV-341150.8","Valid","Signal | Naming template: 'VAL_NT-2222_Appendix_16;","Class based validation","Signal",,":Signal","Instrumentation","",,,"ASBJ",""
+"#0000","ASBJA-XCV-341150.4","Valid","Signal | Naming template: 'VAL_NT-2222_Appendix_16;","Class based validation","Signal",,":Signal","Instrumentation","",,,"ASBJ",""
+"#0000","ASBJA-XCV-341150","Valid","Deluge Valve  | Naming template: 'VAL_NT-0154;","Class based validation","Valves",,":OnOffActuatedValvePhysical","PVV","XCV",,,"ASBJ",""
+"#0000","ASBJA-PM-3942.1","Valid","Signal | Naming template: 'VAL_NT-2222_Appendix_16;","Class based validation","Signal",,":Signal","Instrumentation","",,,"ASBJ",""
+"#0000","ASBJA-PM-3942.3","Valid","Signal | Naming template: 'VAL_NT-2222_Appendix_16;","Class based validation","Signal",,":Signal","Instrumentation","",,,"ASBJ",""
+"#0000","ASBJA-PM-3942.5","Valid","Signal | Naming template: 'VAL_NT-2222_Appendix_16;","Class based validation","Signal",,":Signal","Instrumentation","",,,"ASBJ",""
+"#0000","ASBJA-PM-3942.8A","Valid","Signal | Naming template: 'VAL_NT-2222_Appendix_16;","Class based validation","Signal",,":Signal","Instrumentation","",,,"ASBJ",""
+"#0000","ASBJA-PM-3942.8B","Valid","Signal | Naming template: 'VAL_NT-2222_Appendix_16;","Class based validation","Signal",,":Signal","Instrumentation","",,,"ASBJ",""
+"#0000","ASBJA-PM-3942.9","Valid","Signal | Naming template: 'VAL_NT-2222_Appendix_16;","Class based validation","Signal",,":Signal","Instrumentation","",,,"ASBJ",""
+"#0000","ASBJA-PM-3942","Valid","H.V. Induction Motors (U>1000 Volts)  | Naming template: 'VAL_NT-0047;","Class based validation","Electrical",,":LowVoltageInductionMotorsPhysical","Electrical","",,,"ASBJ",""

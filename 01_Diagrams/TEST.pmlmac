@@ -1,0 +1,8 @@
+DIAGRAMS
+!folder = 'D:\TestDevOps\01_Diagrams\TEST.CSV'
+
+!file = object file(!folder)
+!file.open('OVERWRITE')
+!file.writerecord('overwrite')
+!file.close()
+FINISH

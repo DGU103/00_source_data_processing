@@ -1,0 +1,24 @@
+!resultList  = object array()
+!resultList.append(|DBVW Name| & |,| & |DBVW Attributes| & |,| & |DBVW ELELIST|)
+!dataFile = object file('\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\LocalRepo\00_source_data_processing\04_Engineering\DBVW_export.csv')
+-- !datasourceName = ||
+
+!DBVWList = !!collectAllFor('DBVW', ||, world)
+
+do !dbvw values !DBVWList
+    !name = !dbvw.name
+	do !dbvwtypeel values !dbvw.Elelist
+		-- !dbvwcol='TEST'
+		do !dbvwcol values !dbvw.mem
+			if !dbvwcol.type.string() eq 'ATTCOL' then
+				!string = !name  & |,| & !dbvwtypeel & |,| & !dbvwcol.dbatt
+				handle any
+				endhandle
+				!resultList.append(!string)
+			endif	
+		enddo
+	enddo
+	
+enddo
+!dataFile.writeFile(|OVERWRITE|, !resultList)
+-- q var !resultList

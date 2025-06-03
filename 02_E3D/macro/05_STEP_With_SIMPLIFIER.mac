@@ -1,0 +1,40 @@
+DESIGN
+CONSOLE show
+import 'Aveva.ModelSimplification'
+handle (1000,0)
+-- Aveva.ModelSimplification dll already loaded
+endhandle
+
+using namespace  'Aveva.ModelSimplification'
+!extension = |$1|
+!stepFile = |$2|
+!simplifierObj = object MODELSIMPLIFIEROBJ()
+
+
+!simplifierObj.setInputFilePath(|$!stepFile|)
+!simplifierObj.setOutputFolderPath(|\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\E3D\STP\Temp|)
+!simplifierObj.setSaveSimplifiedFile(TRUE)
+
+!simplifierObj.setSimplificationLevel(1)
+!simplifierObj.setExtrusionSimplificationProfile(TRUE)
+!simplifierObj.setRemoveHoles(TRUE)
+!simplifierObj.setRemoveSmallBodies(TRUE)
+!simplifierObj.setRemoveHoleSize('50')
+!simplifierObj.setRemoveSmallBodySize('50')
+
+!simplifierObj.setCadFormat(|$!extension|)
+-- -- |STEP| 
+-- -- |CATIA|
+-- -- |Creo|
+-- -- |Inventor|
+-- -- |NX|
+-- -- |Solid Edge|
+-- -- |SolidWORKS|
+-- -- |CADfix|
+
+!simplifierObj.setImportModelAs(|EQUI|)
+!simplifierObj.setImportOwner(|/EPC12_Vendor_STP|)
+
+!simplifierObj.SIMPLIFYONLY()
+
+FINISH

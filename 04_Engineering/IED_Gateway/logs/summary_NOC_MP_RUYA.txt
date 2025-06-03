@@ -1,0 +1,24 @@
+Processing Started: 06/30/2024 10:52:40
+
+----------------------------------Project Info----------------------------------
+Project Name: RYA
+MDB Name: ADMIN_CPP_(BJ&BK)_DE
+
+-------------------------------Configuration Info-------------------------------
+Configuration Name: NOC_MP_RUYA
+Last Update: 2024-06-30
+Created By: mch107
+
+Target: AVEVA NET
+    Grids: W:\Appli\DigitalAsset\MP\RUYA_data\Batch\Engineering\IED_Gateway
+    DbViews: W:\Appli\DigitalAsset\MP\RUYA_data\Batch\Engineering\IED_Gateway
+    Drawings: W:\Appli\DigitalAsset\MP\RUYA_data\Batch\Engineering\IED_Gateway
+    Datasheets: W:\Appli\DigitalAsset\MP\RUYA_data\Batch\Engineering\IED_Gateway
+
+-------------------------------------Total--------------------------------------
+
+Total Number of Errors: 0
+Total Number of Warnings: 0
+
+Processing Finished: 06/30/2024 10:53:26
+Processing Time: 00:00:45

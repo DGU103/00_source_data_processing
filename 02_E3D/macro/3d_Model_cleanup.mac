@@ -1,0 +1,241 @@
+DESIGN
+CONSOLE SHOW
+
+-- var !GPWLs collect all GPWL 
+
+-- do !item val !GPWLs
+-- 	$!item
+-- 	DELETE GPWL
+-- 	HANDLE ANY
+-- 		$p 'Cannot delete GPWL $!item'
+-- 	ENDHANDLE
+-- enddo
+-- SAVEWORK
+
+-- var !Sites collect all SITE where (matchw(NAMN, |*-LQ*|) or matchw(NAMN, |*-BASE*|) or matchw(NAMN, |*-MIE-DE|) or matchw(NAMN, |*STUDY*|))
+
+-- do !item val !Sites
+-- 	$!item
+-- 	DELETE SITE
+-- 	HANDLE ANY
+-- 	ENDHANDLE
+-- enddo
+-- SAVEWORK
+
+-- var !items collect all ZONE where (matchw(NAMN, |*_T|) or matchw(NAMN, |*BARGE*|) or matchw(NAMN, |*_C*|) or matchw(NAMN, |*_F*|) or matchw(NAMN, |*HSE*MISC*|) or matchw(NAMN, |*MISC*|))
+
+-- do !item val !items
+-- 	$!item
+-- 	DELETE ZONE
+-- 	HANDLE ANY
+-- 	ENDHANDLE
+-- 	SAVEWORK
+-- enddo
+-- SAVEWORK
+
+-- var !AREAs collect all AREAWL
+
+-- do !item val !AREAs
+-- 	$!item
+-- 	DELETE AREAWL
+-- 	HANDLE ANY
+-- 	ENDHANDLE
+-- enddo
+-- SAVEWORK
+
+-- var !grids collect all GRIDWL
+
+-- do !item val !grids
+-- 	$!item
+-- 	DELETE GRIDWL
+-- 	HANDLE ANY
+-- 	ENDHANDLE
+-- enddo
+-- SAVEWORK
+
+-- var !AIDGROs collect all AIDGRO 
+
+-- do !item val !AIDGROs
+-- 	$!item
+-- 	DELETE AIDGRO
+-- 	HANDLE ANY
+-- 	ENDHANDLE
+-- enddo
+-- SAVEWORK
+
+-- var !fixings collect all FIXING 
+
+-- do !item val !fixings
+-- 	$!item
+-- 	HANDLE ANY
+-- 	ENDHANDLE
+-- 	DELETE FIXING
+-- 	HANDLE ANY
+-- 	ENDHANDLE
+-- enddo
+-- SAVEWORK
+
+-- var !DIMGROs collect all DIMGRO 
+
+-- do !item val !DIMGROs
+-- 	$!item
+-- 	DELETE DIMGRO
+-- 	HANDLE ANY
+-- 	ENDHANDLE
+-- enddo
+-- SAVEWORK
+
+-- var !projectname project
+-- if (matchw(!projectname, |*AIM*|)) then 
+-- 	var !EQUIs collect all EQUI FOR  /RYA-BJ-VendorPackages
+-- 	HANDLE ANY
+-- 	ENDHANDLE
+
+-- 	do !item val !EQUIs
+-- 		var !obj name of $!item
+-- 		!obj = !obj.replace('_STP','')
+
+-- 		$!obj
+-- 		HANDLE (2,109) 
+-- 		ENDHANDLE
+		
+-- 		UNLOCK ALL
+-- 		handle any
+-- 		endhandle
+-- 		DELETE EQUI
+-- 		HANDLE ANY
+-- 		ENDHANDLE
+-- 	enddo
+-- 	SAVEWORK
+-- endif
+
+
+
+var !sites coll all SITE
+
+do !site val !sites
+	var !items collect all EQUI WHERE (matchw(NAMN, '*TROLEY*') or matchw(NAMN, '*TROLLEY*')  or matchw(NAMN, '*TRUCK*')  or matchw(NAME, '*VOL*') or matchw(NAMN, '*BOAT*') or matchw(NAMN, '*STUDY*') or matchw(NAMN, '*CARPET*') or matchw(NAMN, '*ZONE*') or matchw(NAMN, '*SPACE*') or matchw(NAMN, '*BARGE*')) for $!site
+
+	do !item val !items
+		$!item
+		DELETE EQUI MEM
+		HANDLE ANY
+		ENDHANDLE
+		DELETE EQUI 
+		HANDLE ANY
+		ENDHANDLE
+	enddo
+
+
+	SAVEWORK
+
+	var !items collect all STRU where ( matchw(NAMN, '*TROLEY*') or matchw(NAMN, '*TROLLEY*')  or matchw(NAMN, '*TRUCK*')  or matchw(NAME, '*VOL*') or matchw(NAMN, '*BOAT*') or matchw(NAMN, '*STUDY*') or matchw(NAMN, '*CARPET*') or matchw(NAMN, '*ZONE*') or matchw(NAMN, '*SPACE*') or matchw(NAMN, '*BARGE*') or matchw(NAMN, '*UTILITY_STATION*') or matchw(NAMN, '*SLING*'))  for $!site
+
+	do !item val !items
+
+		$!item
+		DELETE STRU 
+		HANDLE ANY
+		ENDHANDLE
+	enddo
+	SAVEWORK
+
+	-- var !items collect all CABLE where (badref(staref) or badref(EndRef))  for $!site
+
+	-- do !item val !items
+	-- 	$!item
+	-- 	DELETE CABLE 
+	-- 	HANDLE ANY
+	-- 	ENDHANDLE
+	-- enddo
+	-- SAVEWORK
+
+
+	var !all collect all BRAN where isnamed  for $!site
+
+	do !item val !all
+		
+		UNNAME $!item
+		handle (2,25) (41,77)
+		endhandle
+	enddo
+	SAVEWORK
+
+	var !all collect all SUBEQUI where isnamed  for $!site
+
+	do !item val !all
+		var !subitems coll all where (isnamed and type neq 'NOZZ') for $!item 
+		do !subitem val !subitems
+			$!subitem
+			UNLOCK ALL
+		handle any
+		endhandle
+			UNNAME $!subitem
+			handle (2,25) (2,18)
+			endhandle	
+		enddo
+		UNNAME $!item
+		handle (2,25) (2,18)
+		endhandle
+		
+	enddo
+	SAVEWORK
+
+	var !all collect all (SBFR) where isnamed  for $!site
+
+	do !item val !all
+		$!item
+		UNLOCK ALL
+		handle any
+		endhandle
+		UNNAME $!item
+		handle (2,25) (2,18)
+		endhandle
+	enddo
+	SAVEWORK
+
+	var !all collect all (SUPPO) where isnamed for $!site
+
+	do !item val !all
+		var !subitems coll all where isnamed for $!item
+		do !subitem val !subitems
+			skip if type of $!subitem eq 'SUPPO'
+			$!subitem
+			UNLOCK ALL
+			handle any
+			endhandle
+			UNNAME $!subitem
+			handle (2,25) (2,18)
+			endhandle	
+		enddo
+
+	enddo
+enddo
+
+-- EPC13 scpecific
+-- /BJL2-STR-DE/MISC/EBFABNGV001
+-- HANDLE ANY
+-- ENDHANDLE
+-- DELETE STRU
+-- HANDLE ANY
+-- ENDHANDLE
+-- --END
+
+
+--  /BHL3-MEC-DE/MISC_F
+-- HANDLE ANY
+-- ENDHANDLE
+-- DELETE ZONE
+-- HANDLE ANY
+-- ENDHANDLE
+
+-- /BHBR-STR-DE/MISC
+-- HANDLE ANY
+-- ENDHANDLE
+-- DELETE ZONE
+-- HANDLE ANY
+-- ENDHANDLE
+
+SAVEWORK
+
+-- FINISH

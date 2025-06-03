@@ -1,0 +1,41 @@
+TAGS
+CONSOLE SHOW
+
+var !mdb MDB
+if (matchw(!mdb, '*BH*')) then
+    !pckg = 'EPC12' 
+elseif (matchw(!mdb, '*CPP*')) then
+    !pckg = 'EPC13' 
+elseif (matchw(!mdb, '*DC*')) then
+    !pckg = !mdb
+endif
+
+var !engwlds coll all ENGGRP
+do !engwld val !engwlds
+	var !allTags append coll all engitem where  ( isnamed eq t and not(EXCLEL) and not(acttype eq ':ManholePhysical') and not(acttype eq ':ProcessNozzlePhysical') and not(acttype eq ':UtilityLine') and not(acttype eq ':PROPID') and not(acttype eq ':StreamLine')  and not(acttype eq ':TagToDocumentID')  and not(acttype eq ':TagToTagID') and not(matchw(NAME, '*-TR-*'))) for $!engwld
+enddo
+
+!size = !allTags.size()
+
+!reportCounter = 1000
+!fileName = '/\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\AEng\PROPs\' + !pckg + '_Property_report_part_0000.txt'
+alpha log $!fileName over
+
+
+do !i from 1 to !size  by 1
+
+    !obj = !allTags[!i] 
+    $!obj
+    q att ce
+    if (!i ge !size) then
+        alpha log end 
+    elseif (!i eq !reportCounter) then
+        alpha log end 
+        !fileName = '/\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\AEng\PROPs\' + !pckg + '_Property_report_part_' + !i.string() + '.txt'
+        alpha log $!fileName over
+        !reportCounter = !reportCounter + 1000
+    endif
+enddo
+
+-- FINISH
+

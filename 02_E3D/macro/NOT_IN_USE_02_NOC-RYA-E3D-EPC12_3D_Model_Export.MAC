@@ -1,0 +1,73 @@
+﻿console show 
+--Выгрузка RVM
+-- design
+	EXPORT REPR ON
+	EXPORT ENCODING UTFEIGHT
+	EXPORT IMPLIED TUBE INTO SEP CONT
+	--REPRESENTATION DARCTOLERANCE 20
+	--REPRESENTATION HOLE ON
+	--REPRESENTATION PNODE OFF
+	--REPRESENTATION SNODE OFF
+	--REPRESENTATION TUBE ON
+	--REPRESENTATION INSU OFF
+	--REPRESENTATION OBST OFF
+	--REPRESENTATION LEVE 6
+	--REPRESENTATION LEVE PIPE 6
+	--REPRESENTATION LEVE NOZZ 6
+	--REPRESENTATION LEVE STRU 6
+	--EXPORT HOLES ON
+	--EXPORT AUTOCOLOUR ON
+	--EXPORT AUTOCOLOUR RESET
+	EXPORT AUTOCOLOUR ALL EQUI WITH (:TEPDesColor eq 160) COLOUR 160
+	--EXPORT AUTOCOLOUR ALL SITE WITH (matchw(name,'*-EQ')) COLOUR 258
+	--EXPORT AUTOCOLOUR ALL SITE WITH (matchw(name,'*-SA')) COLOUR 128
+	--EXPORT AUTOCOLOUR ALL SITE WITH (matchw(name,'*-CI')) COLOUR 299
+	--EXPORT AUTOCOLOUR ALL SITE WITH (matchw(name,'*-EL')) COLOUR 228
+	--EXPORT AUTOCOLOUR ALL SITE WITH (matchw(name,'*-IN')) COLOUR 128
+	--EXPORT AUTOCOLOUR ALL SITE WITH (matchw(name,'*-TL')) COLOUR 98
+	--EXPORT AUTOCOLOUR ALL SITE WITH (matchw(name,'*-AR')) COLOUR 10
+	--EXPORT AUTOCOLOUR ALL SITE WITH (matchw(name,'*-HV')) COLOUR 150
+	--EXPORT AUTOCOLOUR ALL SITE WITH (matchw(name,'*-SR')) COLOUR 157
+
+-- var !ExportDir 'W:\Appli\DigitalAsset\MP\RUYA_data\Source\E3D\3DModel\$1'
+var !ExportDir '\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\E3D\3DModel\'
+SYSCOM 'IF not EXIST $!ExportDir md ""$!ExportDir'
+--!Input = object FILE('D:\AVEVA_DATA\E3D_Project\Addons\PMLLIB\design\macros\sites.txt') 
+--!Input.Open('READ') 
+--!Sites = !Input.ReadFile() 
+-- Writedown log
+	-- alpha log /\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Logs\E3D\alphalog.txt OVERWRITE
+------------------------------EXPORT RVM
+var !mdb MDB
+!mdb = !mdb.replace('/','')
+-- !gpsetid = object dbref('/EPCIC13-GPSET')
+-- !fileName = !ExportDir + '\' + !mdb + '.rvm'
+-- EXPORT FILE "$!fileName"
+-- var !SITEs coll all SITE with (matchw(NAME, |*BJ*DE*| ))
+var !SITEs coll all SITE with (NAME eq '/BJL3-MEC-DE' )
+-- q var !SITEs
+do !SITE val !SITEs 
+	!sitename = namn of $!SITE
+	!fileName = !ExportDir + '\' + !sitename + '.rvm'
+	EXPORT FILE "$!fileName"
+	-- export exclude all fixing with matchw ( name of suppo, '/Copy-(2)-of-PS-01-13005' )
+	-- export exclude all fixing with matchw ( name of suppo, '/ASBJA-SPS-AL3-0051' )
+	-- export exclude all fixing with matchw ( name of suppo, '/PS-01-14698' )
+	do !ZONE val mem of $!SITE
+		skip if matchw(NAMN of $!ZONE, |*MISC*|)
+		skip if matchw(NAMN of $!ZONE, |*STUDY*|)
+		skip if not(matchw(NAME of $!ZONE, |*BJ*DE*|))
+		EXPORT $!ZONE
+	enddo
+	EXPORT FINISH
+enddo
+
+$p END EXPORT
+--finish
+------------------------------EXPORT RVM END
+-- Endlog
+-- alpha log END
+--file "$!ExportDir\3dmodels\trigger.start"
+--file end
+
+-- quit finish

@@ -1,0 +1,113 @@
+
+aid clear all
+UNENHANCE ALL
+
+
+var !items coll all GENPRI for ce 
+do !item val !items
+	var !extent wvol of $!item 
+	skip if !extent eq 'unset'
+	!extentList  = !extent.split()
+	!start       = object POSITION('E ' & !extentList[1] & ' N ' &  !extentList[2] & ' U ' &  !extentList[3] & ' WRT WORLD')
+	!end         = object POSITION('E ' & !extentList[4] & ' N ' &  !extentList[5] & ' U ' &  !extentList[6] & ' WRT WORLD')
+    
+	!volume      = object VOLUME(!start, !end)
+    !box        = !volume.box()
+-- AID BOX NUMBER 1 at $!<box.position>  XLENGTH $!<box.xLength> YLENGTH $!<box.yLength> ZLENGTH $!<box.zLength>
+-- ENHANCE $!item COL 16
+-- q var !box
+    !dim = 15
+	if (!box.XLENGTH le !dim AND !box.YLENGTH le !dim AND !box.ZLENGTH LE !dim * 5) OR (!box.YLENGTH le !dim AND !box.ZLENGTH le !dim AND !box.XLENGTH LE !dim * 5) OR (!box.XLENGTH le !dim AND !box.ZLENGTH le !dim AND !box.YLENGTH LE !dim * 5) then
+        AID BOX NUMBER 1 at $!<box.position>  XLENGTH $!<box.xLength> YLENGTH $!<box.yLength> ZLENGTH $!<box.zLength>
+        ENHANCE $!item COL 16
+        -- $!item
+        -- DELETE GENPRI
+    endif
+
+    -- Nuts only --
+    !dim = 45
+	if (!box.XLENGTH le !dim AND !box.YLENGTH le !dim AND !box.ZLENGTH LE !dim) OR (!box.YLENGTH le !dim AND !box.ZLENGTH le !dim AND !box.XLENGTH LE !dim) OR (!box.XLENGTH le !dim AND !box.ZLENGTH le !dim AND !box.YLENGTH LE !dim) then
+        AID BOX NUMBER 1 at $!<box.position>  XLENGTH $!<box.xLength> YLENGTH $!<box.yLength> ZLENGTH $!<box.zLength>
+        ENHANCE $!item COL 16
+        -- $!item
+        -- DELETE GENPRI
+    endif
+
+    -- Specific for 37mm --
+    !dim = 37
+	if (!box.XLENGTH eq !dim) OR (!box.YLENGTH eq !dim) OR (!box.XLENGTH eq !dim) then
+        AID BOX NUMBER 1 at $!<box.position>  XLENGTH $!<box.xLength> YLENGTH $!<box.yLength> ZLENGTH $!<box.zLength>
+        ENHANCE $!item COL 16
+        $!item
+        DELETE GENPRI
+    endif
+    -- Specific for 37mm --
+    !dim = 44
+	if (!box.XLENGTH eq !dim) OR (!box.YLENGTH eq !dim) OR (!box.XLENGTH eq !dim) then
+        AID BOX NUMBER 1 at $!<box.position>  XLENGTH $!<box.xLength> YLENGTH $!<box.yLength> ZLENGTH $!<box.zLength>
+        ENHANCE $!item COL 16
+        $!item
+        DELETE GENPRI
+    endif
+    !dim = 46
+	if (!box.XLENGTH eq !dim) OR (!box.YLENGTH eq !dim) OR (!box.XLENGTH eq !dim) then
+        AID BOX NUMBER 1 at $!<box.position>  XLENGTH $!<box.xLength> YLENGTH $!<box.yLength> ZLENGTH $!<box.zLength>
+        ENHANCE $!item COL 16
+        $!item
+        DELETE GENPRI
+    endif
+    !dim = 29
+	if (!box.XLENGTH eq !dim) OR (!box.YLENGTH eq !dim) OR (!box.XLENGTH eq !dim) then
+        AID BOX NUMBER 1 at $!<box.position>  XLENGTH $!<box.xLength> YLENGTH $!<box.yLength> ZLENGTH $!<box.zLength>
+        ENHANCE $!item COL 16
+        $!item
+        DELETE GENPRI
+    endif
+
+    !dim = 30
+	if (!box.XLENGTH eq !dim) OR (!box.YLENGTH eq !dim) OR (!box.XLENGTH eq !dim) then
+        AID BOX NUMBER 1 at $!<box.position>  XLENGTH $!<box.xLength> YLENGTH $!<box.yLength> ZLENGTH $!<box.zLength>
+        ENHANCE $!item COL 16
+        $!item
+        DELETE GENPRI
+    endif
+
+    -- !dim = 5
+    -- if (!box.XLENGTH le !dim) OR (!box.YLENGTH le !dim) OR (!box.ZLENGTH le !dim) then
+    --     AID BOX NUMBER 1 at $!<box.position>  XLENGTH $!<box.xLength> YLENGTH $!<box.yLength> ZLENGTH $!<box.zLength>
+    --     $!item
+    --     DELETE GENPRI
+    --     ENHANCE $!item COL 16
+    -- endif
+enddo
+
+savework
+var !subes coll all SUBE for ce
+do !sube val !subes
+    skip if mem count of $!sube ge 1
+    $!sube 
+    delete sube
+enddo
+savework
+
+
+aid clear all
+UNENHANCE ALL
+var !items coll all EQUI for ce 
+do !item val !items
+	var !extent wvol of $!item 
+	skip if !extent eq 'unset'
+	!extentList  = !extent.split()
+	!start       = object POSITION('E ' & !extentList[1] & ' N ' &  !extentList[2] & ' U ' &  !extentList[3] & ' WRT WORLD')
+	!end         = object POSITION('E ' & !extentList[4] & ' N ' &  !extentList[5] & ' U ' &  !extentList[6] & ' WRT WORLD')
+    
+	!volume      = object VOLUME(!start, !end)
+    !box        = !volume.box()
+
+	if (!box.XLENGTH ge 747 and !box.XLENGTH le 748) or (!box.yLENGTH ge 747 and !box.yLENGTH le 748) or (!box.zLENGTH ge 747 and !box.zLENGTH le 748)   then
+        AID BOX NUMBER 1 at $!<box.position>  XLENGTH $!<box.xLength> YLENGTH $!<box.yLength> ZLENGTH $!<box.zLength>
+        ENHANCE $!item COL 16
+    endif
+
+enddo
+savework

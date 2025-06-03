@@ -1,0 +1,42 @@
+ADMIN
+
+var !clock clock
+!dclock = !clock.split(' ')
+!cdate = !dclock[1] + '-' + !dclock[2]
+
+!processList = ARRAY()
+
+!sessions   = SESSIONS
+
+do !x index !sessions
+
+   !startDate[!x] = !sessions[!x].entered.split()
+   !isCurrent[!x]   = !sessions[!x].isCurrent
+   !month[!x] = !startDate[!x][3]
+   !date[!x] = !startDate[!x][2]
+   !edate = !date[!x]  + '-' + !month[!x]
+
+   !lmodule = !sessions[!x].modulename
+
+   if matchw('$!sessions[$!x]','*QAMV3-SCTX140*') then
+   --if matchw('$!sessions[$!x]','*QAMV3-SCTX140*') and matchw('$!lmodule','*DIAGRAMS*') then
+   --if matchw('$!sessions[$!x]','*QAHQO-L47766*') and matchw('$!lmodule','*ADMIN*') then
+   --if not matchw('$!lmodule','*GLOBAL*') and (!cdate neq !edate) then
+
+      !sessionid = !sessions[!x].uniqueId
+      !processList.append(!sessionid)       
+
+   endif
+enddo
+
+
+do !y index !processList
+
+   EXPUNGE '$!processList[$!y]'
+   handle (1,36)
+   endhandle
+
+enddo
+
+
+finish
