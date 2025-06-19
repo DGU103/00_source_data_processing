@@ -86,7 +86,7 @@ function Get-Bookmarks {
     }
 }
 
-#Indexing Related Processes
+#Indexation Related Processes
 function Invoke-PDFIndexing {
 
     param(
@@ -459,7 +459,6 @@ function Invoke-ExcelIndexing {
             $wb = $excel.Workbooks.Open($file.FullName, 3) # read-only, no links
             # $wb = $excel.Workbooks.Open($file.FullName, 3) # read-only, no links
 
-            # put this with your other local vars, before the workbook loop
             $tagPattern = [regex]'^[A-Z0-9]+(?:-[A-Z0-9]+){1,}-\d{3,6}$'
 
             foreach($ws in $wb.Worksheets){
@@ -694,8 +693,8 @@ function E3D {
 
         & "$PSScriptRoot\02_E3D\00.01_Export_Tags_from_E3D.ps1"
 
-        $scripts = @("01.00_E3D_Tagged_Item_full_regex_Regex_Filtering.ps1",
-                    "02.01_Export_parent_links_from_E3D.ps1",
+        $scripts = @("02.01_Export_parent_links_from_E3D.ps1",
+                    "01.00_E3D_Tagged_Item_full_regex_Regex_Filtering.ps1",
                     "01.01_E3D_Non-Tagged_Items_Filtering.ps1",
                     "02_AIM_3D_model_links.ps1")
        
