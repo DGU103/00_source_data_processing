@@ -12,15 +12,39 @@ var !mdb MDB
 !logpath = '/\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\E3D\log\'+ !logtimestamp + '_' + !pckg + '.log'
 alpha log $!logpath
 
+-- if (matchw(!mdb, |*BJ*|)) then
+-- 	!fileName = !ExportDir + '\EPCIC13-E3D-Tagged-Items.csv'
+-- elseif (matchw(!mdb, |*BH*|)) then
+-- 	!fileName = !ExportDir + '\EPCIC12-E3D-Tagged-Items.csv'
+-- elseif (matchw(!mdb, |*EPCIC11|)) then
+-- 	!fileName = !ExportDir + '\EPCIC11-E3D-Tagged-Items.csv'
+-- endif
+
+
 if (matchw(!mdb, |*BJ*|)) then
-	!fileName = !ExportDir + '\EPCIC13-E3D-Tagged-Items.csv'
+	!fileName = !ExportDir + '\EPCIC13_BJ_E3D-Tagged.csv'
 elseif (matchw(!mdb, |*BH*|)) then
-	!fileName = !ExportDir + '\EPCIC12-E3D-Tagged-Items.csv'
-elseif (matchw(!mdb, |*EPCIC11|)) then
-	!fileName = !ExportDir + '\EPCIC11-E3D-Tagged-Items.csv'
+	!fileName = !ExportDir + '\EPCIC12_BH_E3D-Tagged.csv'
+elseif (matchw(!mdb, |*LA*|)) then
+	!fileName = !ExportDir + '\EPCIC11_LA_E3D-Tagged.csv'
+elseif (matchw(!mdb, |*MA*|)) then
+	!fileName = !ExportDir + '\EPCIC11_MA_E3D-Tagged.csv'
+elseif (matchw(!mdb, |*PA*|)) then
+	!fileName = !ExportDir + '\EPCIC11_PA_E3D-Tagged.csv'
+elseif (matchw(!mdb, |*QA*|)) then
+	!fileName = !ExportDir + '\EPCIC11_QA_E3D-Tagged.csv'
+elseif (matchw(!mdb, |*RA*|)) then
+	!fileName = !ExportDir + '\EPCIC11_RA_E3D-Tagged.csv'
+elseif (matchw(!mdb, |*TA*|)) then
+	!fileName = !ExportDir + '\EPCIC11_TA_E3D-Tagged.csv'
+elseif (matchw(!mdb, |*UA*|)) then
+	!fileName = !ExportDir + '\EPCIC11_UA_E3D-Tagged.csv'
+elseif (matchw(!mdb, |*WA*|)) then
+	!fileName = !ExportDir + '\EPCIC11_WA_E3D-Tagged.csv'
+elseif (matchw(!mdb, |*XA*|)) then
+	!fileName = !ExportDir + '\EPCIC11_XA_E3D-Tagged.csv'
 endif
 !file = object FILE(!fileName)
-
 
 !header = object ARRAY()
 !header.append('NAME;PARENT;ACTTYPE;DATE;DESCRIPTION')
@@ -28,7 +52,7 @@ endif
 var !sites coll all SITE where (not(matchw(namn, |*SUP*|)) and (matchw(namn, |BJ*|) or matchw(namn, |BK*|) or matchw(namn, |BH*|) or matchw(namn, |LA*|) or matchw(namn, |MA*|) or matchw(namn, |PA*|) or matchw(namn, |QA*|) or matchw(namn, |RA*|) or matchw(namn, |TA*|) or matchw(namn, |UA*|) or matchw(namn, |WA*|) or matchw(namn, |XA*|)))
 do !site val !sites
 	q NAME of $!site
-	var !all coll all (PIPE CABLE EQUI PCOM MESH DAMP INST VALV GRIL VTWA STRU FRMW ATTA FILT SUBE BOX BEND GASK BATT TEE OLET CWAY) where (isnamed eq true ) for $!site
+	var !all coll all (PIPE BRAN CABLE EQUI PCOM MESH DAMP INST VALV GRIL VTWA STRU FRMW ATTA FILT SUBE BOX BATT OLET CWAY) where (isnamed eq true ) for $!site
 	
 	!items = object ARRAY()
 
@@ -42,7 +66,7 @@ enddo
 !eof = object ARRAY()
 !eof.append('END OF DATA;;;;')
 !file.WriteFile('APPEND', !eof)
-
+ 
 
 $p 'JOB COMPLETE'
 alpha log end

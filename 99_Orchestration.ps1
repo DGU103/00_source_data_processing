@@ -1,6 +1,6 @@
     <# ORCHESTATOR SCRIPT. 
     
-    We can run it with or without the following parameters:
+    We can pass following parameters:
     -tags : Tags Extraction
     -props : Properties Extraction
     -3d : Everything related to 3d model extraction
@@ -32,10 +32,6 @@ elseif ($epc.IsPresent) {$packingvoke = $True}
 
 else {$fullrun = $false}
 
-$global:scriptname = $MyInvocation.MyCommand.Name -replace '\.ps1$',''
-# $script = $MyInvocation.MyCommand.Definition
-$global:method = "ORCHESTR"
-$finished = $false
 
 #Load Common file with all of the necessary Functions
 . "$PSScriptRoot\Common_Functions.ps1"
@@ -105,37 +101,22 @@ if ($tags -or $props) {
 
 if ($packingvoke) {
 
-    Write-Log -Level INFO -Message "Starting Orchestration for EPC $epc" -epc $epc
-    Write-Log -Level INFO -Message "Invoking E3D Processing"
     E3D -epc $epc -packingvoke $packingvoke
-    Write-Log -Level INFO -Message "Invoking Indexing Processing"
     Indexing -epc $epc -packingvoke $packingvoke
-    Write-Log -Level INFO -Message "Invoking Engineering Processing"
     Engineering -epc $epc -packingvoke $packingvoke
-    Write-Log -Level INFO -Message "Invoking Diagrams Processing"
     Diagrams -epc $epc -packingvoke $packingvoke
-    Write-Log -Level INFO -Message "Invoking E&I Processing"
     E_I -epc $epc -packingvoke $packingvoke
-    $finished = $true
-    Write-Log -Level INFO -Message "Orchestation for EPC $epc is finished" -finished $finished
 
 }
 
 if ($fullrun) {
 
-    Write-Log -Level INFO -Message "Starting Full Orchestration with $env:USERDOMAIN\$env:USERNAME"
-    # Write-Log -Level INFO -Message "Invoking E3D Processing"
-    #  E3D -fullrun $fullrun
-    Write-Log -Level INFO -Message "Invoking Indexing Processing"
-     Indexing -fullrun $fullrun
-    Write-Log -Level INFO -Message "Invoking Engineering Processing"
-     Engineering -fullrun $fullrun
-    Write-Log -Level INFO -Message "Invoking Diagrams Processing" 
-     Diagrams -fullrun $fullrun
-    Write-Log -Level INFO -Message "Invoking E&I Processing"
-     E_I -fullrun $fullrun
-     $finished = $true
-     Write-Log -Level INFO -Message "Orchestation for all EPCs is finished" -finished $finished 
+    E3D -fullrun $fullrun
+    Indexing -fullrun $fullrun
+    Engineering -fullrun $fullrun
+    Diagrams -fullrun $fullrun
+    E_I -fullrun $fullrun
+
  }
 
 

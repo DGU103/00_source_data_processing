@@ -42,20 +42,25 @@ def process_excel_file(file_path, patterns):
     for col in df.columns:
         for value in df[col]:
             if matches_regex(value, patterns):
-                matches.append((file_path, col, value))
+                matches.append((file_path, value))
     return matches
 
 # Recursively process all Excel files in the source directory
 all_matches = []
+i = 1
 for root, dirs, files in os.walk(source_directory):
     for file in files:
+        if re.match('CRS', file):
+            continue
+        print(f"Done {i} from {len(files)}")
+        i= i+1
         if file.endswith('.xls') or file.endswith('.xlsx'):
             file_path = os.path.join(root, file)
             matches = process_excel_file(file_path, regex_patterns)
             all_matches.extend(matches)
 
 # Export the matches to a CSV file
-output_df = pd.DataFrame(all_matches, columns=['File Path', 'Column', 'Matched Value'])
+output_df = pd.DataFrame(all_matches, columns=['File Path', 'Matched Value'])
 output_csv_path = os.path.join(output_directory, 'matched_values.csv')
 output_df.to_csv(output_csv_path, index=False)
 

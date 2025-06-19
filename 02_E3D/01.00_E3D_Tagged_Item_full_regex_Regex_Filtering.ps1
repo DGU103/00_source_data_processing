@@ -1,121 +1,78 @@
-﻿param(
-    [Parameter(Mandatory=$true)]
-    [ValidateSet(11, 12, 13)]
-    [string] $epc
-
-)
-Set-Location $PSScriptRoot
+﻿Set-Location $PSScriptRoot
 Clear-Host
-class TagObject{
+
+class TagObject {
     [String] $Name
     [String] $ACTTYPE
     [String] $DATE
     [string] $namingtemplate
-
 }
+
+. "$PSScriptRoot\..\Common_Functions.ps1"
 
 $global:scriptname = $MyInvocation.MyCommand.Name -replace '\.ps1$',''
 $global:method = "E3D"
 $finished = $false
 
-. "$PSScriptRoot\..\Common_Functions.ps1"
-
-Get-Job | Remove-Job
-
 Write-Log -Level INFO -Message "====================================="
 Write-Log -Level INFO -Message "User: $env:userDomain\$env:UserName"
-Write-Log -Level INFO -Message "Running $scriptname. Please Wait"
+Write-Log -Level INFO -Message "Running $($MyInvocation.MyCommand.Name). Please Wait"
 Write-Log -Level INFO -Message "====================================="
 
-$Host.UI.RawUI.WindowTitle = "E3D Tagged items full Regexp check for EPC $epc"
+$source_csv_dir = "\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\E3D\Tagged"
+$regex_config_path = '\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\LocalRepo\00_source_data_processing\06_Regexp_configs\Full_regex.csv'
+$full_regexes = Import-Csv -Delimiter ";" -Path $regex_config_path
 
-$source_csv = "\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\E3D\Tagged\EPCIC"+ $epc+"-E3D-Tagged-Items.csv"
-
-$full_regexes = Import-Csv -Delimiter ";" -Path '\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\LocalRepo\00_source_data_processing\06_Regexp_configs\Full_regex.csv'
-
-$inArray = Import-Csv -Delimiter ";" -Path $source_csv 
-$parts = 4
-
-[int] $partSize = [Math]::Round($inArray.count / $parts, 0)
-if ($partSize -eq 0) { 
-    Write-Log -Level ERROR -Message "$parts sub-arrays requested, but the input array has only $($inArray.Count) elements."
-    throw }
-$extraSize = $inArray.Count - $partSize * $parts
-$offset = 0
-$jobs_list = @()
-
-
-foreach ($i in 1..$parts) {
-     
-    $temp = $inArray[$offset..($offset + $partSize + [bool] $extraSize - 1)]
-    
-    $job_id = "TAGGED_EPC" + $epc + "_Batch" + $i.ToString()
-
-
-
-    Start-Job -Name $job_id -ScriptBlock {
-        class TagObject{
-            [String] $Name
-            [String] $ACTTYPE
-            [String] $DATE
-            [string] $namingtemplate
-        
-        }
-        $count = $args[0].count
-        $full_regexes = $args[1]
-        $result = New-Object  TagObject[] $count
-        for ($ii = 0; $ii -lt $count; $ii++){
-            $record = $args[0][$ii]
-
-            if ($record.ACTTYPE -in ("ZONE","SITE","NOZZ")) {
-                CONTINUE
-            }
-            foreach($regex in $full_regexes){
-                if($record.Name -match ("^" + $regex.Regexp + "$")){
-                    $tag = New-Object -TypeName TagObject
-                    $tag.Name = $record.Name
-                    $tag.ACTTYPE = $record.ACTTYPE
-                    $tag.DATE = $record.DATE
-                    $tag.namingtemplate = $regex.Naming_template_ID
-                    $result[$ii] = $tag
-                    break
-                }    
-            }
-        
-        }
-        return $result} -ArgumentList $temp, $full_regexes
-
-
-    $jobs_list += $job_id 
-    
-    $offset += $partSize + [bool] $extraSize
-    if ($extraSize) { --$extraSize }
+# Pre-compile regex patterns
+$compiledRegexes = $full_regexes | ForEach-Object {
+    [PSCustomObject]@{
+        Pattern = [regex]::new("^$($_.Regexp)$")
+        Template = $_.Naming_template_ID
+    }
 }
 
+$csv_files = Get-ChildItem -Path $source_csv_dir -Filter "*-Tagged.csv"
 
-Wait-Job  -Name $jobs_list
-# Write-host "Waiting for jobs to be completed for Package EPC$epc"
+foreach ($file in $csv_files) {
+    Write-Log -Level INFO -Message "Processing file: $($file.Name)"
+    $records = Import-Csv -Delimiter ";" -Path $file.FullName
+    $result = @()
 
-$export = $null
+    foreach ($record in $records) {
+        if ($record.ACTTYPE -in ("ZONE", "SITE", "NOZZ")) { continue }
 
-foreach ($job in $jobs_list) {
-    $export += Receive-Job -Name $job
+        foreach ($regex in $compiledRegexes) {
+            if ($regex.Pattern.IsMatch($record.Name)) {
+                $tag = New-Object TagObject
+                $tag.Name = $record.Name
+                $tag.ACTTYPE = $record.ACTTYPE
+                $tag.DATE = $record.DATE
+                $tag.namingtemplate = $regex.Template
+                $result += $tag
+                break
+            }
+        }
+    }
+
+    $outputFile = Join-Path $source_csv_dir "$($file.BaseName)_processed.csv"
+
+    try {
+        if ($result.Count -gt 0) {
+            $result |
+                Sort-Object -Property Name -Unique |
+                Select-Object -Property NAME, ACTTYPE, DATE, NAMINGTEMPLATE |
+                Export-Csv -Path $outputFile -NoTypeInformation -Force -Encoding UTF8
+
+            Write-Log -Level INFO -Message "Exported: $outputFile"
+        } else {
+            Write-Log -Level WARNING -Message "No matching records found in $($file.Name)"
+        }
+    }
+    catch {
+        Write-Log -Level ERROR -Message "Failed to export $outputFile. Error: $($_.Exception.Message)"
+    }
 }
 
-Remove-Job -Name $jobs_list
-
-$output = $source_csv.Replace(".csv","_processed.csv")
-
-try {
-
-$export | Sort-Object -Property Name -Unique | Select-Object -Property NAME, ACTTYPE, DATE, NAMINGTEMPLATE | Export-Csv -Path $output -NoTypeInformation -Force -Encoding UTF8
 $finished = $true
-Write-Log -Level INFO -Message "TAG Export finished successfully." -finished $finished
-}
 
-catch {
-    Write-Log -Level ERROR -Message "Failed to export CSV. Error: $($_.Exception.Message)"
-    throw
-}
-
-#Remove-Job -Name $jobs_list
+Write-Log -Level INFO -Message "All TAG exports finished." -finished $finished

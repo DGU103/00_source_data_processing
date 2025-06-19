@@ -1,0 +1,24 @@
+aid clear all
+rem all
+var !items coll all CONE for CE
+
+do !item val !items
+	var !extent wvol of $!item 
+	skip if !extent eq 'unset'
+	!extentList  = !extent.split()
+	!start       = object POSITION('E ' & !extentList[1] & ' N ' &  !extentList[2] & ' U ' &  !extentList[3] & ' WRT WORLD')
+	!end         = object POSITION('E ' & !extentList[4] & ' N ' &  !extentList[5] & ' U ' &  !extentList[6] & ' WRT WORLD')
+	!volume      = object VOLUME(!start, !end)
+	
+        !things = !!collectallfor('BRAN EQUI SUPPO', || , $!item)
+        !box = !volume.box()
+        var !nam namn of $!item 
+        q var !box
+        AID BOX NUMBER 1 at $!<box.position>  XLENGTH $!<box.xLength> YLENGTH $!<box.yLength> ZLENGTH $!<box.zLength>
+        if !box.XLENGTH gt 10000 then
+            $!item
+            delete cone 
+
+        endif
+	
+enddo

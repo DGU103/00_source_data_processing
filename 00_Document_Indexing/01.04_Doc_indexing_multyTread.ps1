@@ -234,7 +234,7 @@ foreach ($i in 1..$parts) {
                 foreach($word in $page_words){
                     if([string]::IsNullOrEmpty($word.Text)) { continue }
                     foreach($regex in $Light_Regex) {
-                        if($word.Text -match $regex.Regexp){
+                        if($word.Text -match $regex.Regexp.Replace('$','(,|;)?$')){
                             $record = [Tag2Doc]::new()
                             $record.Tag_number = $word.Text
                             $record.Document_number = $file.BaseName

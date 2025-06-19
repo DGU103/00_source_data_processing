@@ -37,7 +37,7 @@ elseif($epc -eq '05' -or $epc -eq '06'){$epc = '05'
 $root_path = "\\als.local\NOC\Data\Appli\DigitalAsset\MP\WHP03\Source\Indexing\"}
 
 # $hyperlink_path = $root_path + "EPC" + $epc + "Source"
-$indexing_report_path = $root_path + "EPCIC" + $epc + "_indexing_report.csv"
+$indexing_report_path = $root_path + "DEV_EPCIC" + $epc + "_indexing_report.csv"
 $indexing_report = Import-Csv $indexing_report_path
 
 #$regexes = Import-Csv "C:\Users\DGU103\Downloads\GIT\00_source_data_processing\06_Regexp_configs\Full_regex.csv" -Delimiter ";"

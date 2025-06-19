@@ -31,7 +31,7 @@ Import-Module "$PSScriptroot\lib\itextsharp.pdfa.dll"
 $Host.UI.RawUI.WindowTitle = "Document Indexing for Package EPCIC $epc"
 
 $files_Dir = "\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC"+ $epc +"_Source\"
-$files_Dir = "\\als.local\NOC\Data\Appli\DigitalAsset\MP\WHP03\Source\Indexing\EPC05_Source\WHP03-PMC2-ASKAA-10-R25011-0001\0X"
+$files_Dir = "W:\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC13_Source\CPPR1-MDM5-ASBJY-10-IN9005-0001\00"
 
 $date = Get-Date -Format 'dd/MM/yyyy'
 
@@ -130,14 +130,14 @@ foreach($file in $files)
             Write-Host "error" -ForegroundColor Red
             # CONTINUE
         }
-        $words_export = $files_Dir+ '\' + $file.BaseName + '.csv'
-        $page_words | Export-Csv -Path $words_export
+        # $words_export = $files_Dir+ '\' + $file.BaseName + '.csv'
+        # $page_words | Export-Csv -Path $words_export
         foreach($word in $page_words){
             
             if([string]::IsNullOrEmpty($word.Text)){CONTINUE}
 
             foreach ($regex in $Light_Regex) {
-                if($word.Text -match $regex.Regexp){
+                if($word.Text -match $regex.Regexp.Replace('$','(,|;)?$')){
                     $record = New-Object Tag2Doc
                     $record.Tag_number = $word.Text
                     $record.document_number = $file.BaseName 

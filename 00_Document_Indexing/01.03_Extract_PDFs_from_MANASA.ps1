@@ -33,10 +33,12 @@ Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 do {
     $zips = Get-ChildItem -Path $source_path -Filter *.zip -Recurse
+    Write-Log -Level INFO -Message "Found $($zips.Count) Zip files for processing"
     foreach ($zip in $zips) {
         # Write-Host "Processing $($zip.FullName)"
-        $archive = [IO.Compression.ZipFile]::OpenRead($zip.FullName)
         try {
+            
+            $archive = [IO.Compression.ZipFile]::OpenRead($zip.FullName)
             $archive.Entries |
               Where-Object {
                   $ext = [IO.Path]::GetExtension($_.FullName).ToLowerInvariant()
@@ -52,19 +54,19 @@ do {
                       $true
                   )
               }
+
+              $archive.Dispose()
+              [GC]::Collect()
+              [GC]::WaitForPendingFinalizers()
+              Remove-Item -LiteralPath $zip.FullName -Force
         }
 
         catch {
 
-            # Write-Log -Level INFO -Message "Encountered problem with the file $($zip.FullName)"
             Write-Host -Level INFO -Message "Encountered problem with the file $($zip.FullName)"
+            #Moving the corrupted file into the folder
+            Move-Item $zip.FullName -Destination "\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\Corrupted_files"
         }
-
-        finally {
-            $archive.Dispose()
-        }
-
-        Remove-Item -LiteralPath $zip.FullName -Force
     }
 } while ($zips.Count -gt 0)
 
@@ -73,7 +75,7 @@ do {
 $inArray_source = [System.IO.Directory]::GetFiles("$source_path" , "*.pdf", [System.IO.SearchOption]::AllDirectories).Length
 
 
-#Checking for potential error
+#Checking for potential error in log files
 
 $files = Get-ChildItem -Path "\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\logs\*"
 
