@@ -15,6 +15,7 @@ class TagNumber {
     [string] $DATE
     [string] $doc_date
     [string] $issue_reason
+    [string] $SourceType
     [string] $discipline
     [string] $Document_Hyper_Link
 }
@@ -37,7 +38,7 @@ elseif($epc -eq '05' -or $epc -eq '06'){$epc = '05'
 $root_path = "\\als.local\NOC\Data\Appli\DigitalAsset\MP\WHP03\Source\Indexing\"}
 
 # $hyperlink_path = $root_path + "EPC" + $epc + "Source"
-$indexing_report_path = $root_path + "DEV_EPCIC" + $epc + "_indexing_report.csv"
+$indexing_report_path = $root_path + "EPCIC" + $epc + "_indexing_report.csv"
 $indexing_report = Import-Csv $indexing_report_path
 
 #$regexes = Import-Csv "C:\Users\DGU103\Downloads\GIT\00_source_data_processing\06_Regexp_configs\Full_regex.csv" -Delimiter ";"
@@ -67,6 +68,7 @@ foreach ($i in 0..$size) {
     $record.DATE = $indexing_report[$i].DATE
     $record.doc_date = $indexing_report[$i].doc_date
     $record.issue_reason = $indexing_report[$i].issue_reason
+    $record.SourceType = $indexing_report[$i].SourceType
 
     $hyper_link = '=HYPERLINK("' + $indexing_report[$i].file_full_path + '","' + $indexing_report[$i].Document_number +'")'
     $record.Document_Hyper_Link = $hyper_link
