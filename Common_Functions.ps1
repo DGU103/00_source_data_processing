@@ -57,6 +57,7 @@ function Get-Bookmarks {
         [string]$reasonText,
         [string]$fileFullName,
         [string]$doctype,
+        [string]$revision,
         [string]$doctitle,
         [string]$issuance_code,
         [ref]$tags
@@ -64,7 +65,7 @@ function Get-Bookmarks {
 
     foreach ($bookmark in $Bookmarks) {
         if ($bookmark.Kids) {
-            Get-Bookmarks -Bookmarks $bookmark.Kids -Light_Regex $Light_Regex -fileBaseName $fileBaseName -date $date -revision_date $revision_date -reasonText $reasonText -fileFullName $fileFullName -doctype $doctype -doctitle $doctitle -issuance_code $issuance_code -tags $tags
+            Get-Bookmarks -Bookmarks $bookmark.Kids -Light_Regex $Light_Regex -fileBaseName $fileBaseName -date $date -revision_date $revision_date -reasonText $reasonText -fileFullName $fileFullName -doctype $doctype -doctitle $doctitle -revision $revision -issuance_code $issuance_code -tags $tags
         } else {
             foreach ($regex in $Light_Regex) {
                 if ($bookmark.Title.Split()[0] -match $regex.Regexp) {
@@ -77,6 +78,7 @@ function Get-Bookmarks {
                     $record.ST = "From bookmarks"
                     $record.DATE = $date
                     $record.doc_date = $revision_date
+                    $record.revision = $revision
                     $record.issue_reason = $reasonText
                     $record.file_full_path = $fileFullName
                     $tags.Value += $record
@@ -434,12 +436,13 @@ function Indexing {
         [string]$epc
     )
    
-    #Data Fetching from MANASA
+    #Data Fetching from MANASA and post-proc
 
     $scripts = @("01.00_Delete_metadata_from_folder.ps1",
     "01.01_Extract_metadata_from_DMS.ps1",
     "01.02_Process_Metadata.ps1",
-    "01.03_Extract_PDFs_from_MANASA.ps1")
+    "01.03_Extract_PDFs_from_MANASA.ps1",
+    "01.03.02_Unpack_Files.ps1")
 
     switch ($meta_update) {
 
@@ -465,7 +468,7 @@ function Indexing {
 
     <#Pure Indexing #>
 
-    $scripts = @("01.04_Doc_indexing_multyTread.ps1",
+    $scripts = @("DEV_Indexing_v2.0.ps1",
     "01.05_Indexing_result_postProcessing.ps1")
 
     switch ($epc_envoke) {
