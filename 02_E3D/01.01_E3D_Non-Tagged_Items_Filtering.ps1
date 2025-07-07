@@ -67,18 +67,19 @@ $scriptBlock = {
 		$item = $row.NAME
         
     foreach ($part in $regexList) {
-            $rg = $part -replace('.+@','')
+            $rg = '^' + ($part -replace('.+@','')) + '$'
             $cl = $part -replace('@.+','')
             if ($item -match $rg) {
                 $results += [pscustomobject]@{
-                    Model = $item.Substring(1,4) + '_3D_MODEL'
-                    Tag_Number = $item -replace('/','')
+                    Model = $item.Substring(0,4) + '_3D_MODEL'
+                    # Tag_Number = $item -replace('/','') #old
+                    Tag_Number = $item
                     Tag_Class = $cl
                     Tag_Description = 'Non Tagged Item'
-                    Ref3D = $item
+                    Ref3D = "/" + $item
                     Status = $null
                     Action = $null
-                    Platform = $item.Substring(1,4)
+                    Platform = $item.Substring(0,4)
                 }
                 break
             }
@@ -110,8 +111,8 @@ foreach ($job in $jobs) {
     Remove-Job -Job $job
 }
 
-$root_path = "\\Qamv3-sapp243\gdp\GDP_StagingArea\MP\E3D_TAGS\"
-#$root_path = "\\QAMV3-SFIL102\Home\DGU103\My Documents\Artifacts\AIMA\non-tagged\"
+#$root_path = "\\Qamv3-sapp243\gdp\GDP_StagingArea\MP\E3D_TAGS\"
+$root_path = "\\QAMV3-SFIL102\Home\DGU103\My Documents\Artifacts\AIMA\non-tagged\"
 $outputPath = $root_path + $clean + "-E3D_Non_Tagged_AIM.csv"
 
 
