@@ -12,13 +12,13 @@ var !mdb MDB
 !logpath = '/\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\E3D\log\'+ !logtimestamp + '_' + !pckg + '.log'
 alpha log $!logpath
 
--- if (matchw(!mdb, |*BJ*|)) then
--- 	!fileName = !ExportDir + '\EPCIC13-E3D-Tagged-Items.csv'
--- elseif (matchw(!mdb, |*BH*|)) then
--- 	!fileName = !ExportDir + '\EPCIC12-E3D-Tagged-Items.csv'
--- elseif (matchw(!mdb, |*EPCIC11|)) then
--- 	!fileName = !ExportDir + '\EPCIC11-E3D-Tagged-Items.csv'
--- endif
+if (matchw(!mdb, |*BJ*|)) then
+	!packageName = 'EPCIC13'
+elseif (matchw(!mdb, |*BH*|)) then
+	!packageName = 'EPCIC12'
+else 
+	!packageName = 'EPCIC11'
+endif
 
 
 if (matchw(!mdb, |*BJ*|)) then
@@ -47,23 +47,32 @@ endif
 !file = object FILE(!fileName)
 
 !header = object ARRAY()
-!header.append('NAME;PARENT;ACTTYPE;DATE;DESCRIPTION')
+-- !header.append('NAME,TYPE,DESC,DATE,SOURCE,PACKAGE')
+-- !header.append('NAME,TYPE,SOURCE,DATE,PACKAGE')
+!header.append('NAME;TYPE;SOURCE;DATE;PACKAGE')
 !file.WriteFile('OVERWRITE', !header)
 var !sites coll all SITE where (not(matchw(namn, |*SUP*|)) and (matchw(namn, |BJ*|) or matchw(namn, |BK*|) or matchw(namn, |BH*|) or matchw(namn, |LA*|) or matchw(namn, |MA*|) or matchw(namn, |PA*|) or matchw(namn, |QA*|) or matchw(namn, |RA*|) or matchw(namn, |TA*|) or matchw(namn, |UA*|) or matchw(namn, |WA*|) or matchw(namn, |XA*|)))
 do !site val !sites
 	q NAME of $!site
-	var !all coll all (PIPE BRAN CABLE EQUI PCOM MESH DAMP INST VALV GRIL VTWA STRU FRMW ATTA FILT SUBE BOX BATT OLET CWAY) where (isnamed eq true ) for $!site
+	var !all coll all (PIPE BRAN CABLE EQUI PCOM MESH DAMP INST VALV GRIL VTWA STRU FRMW ATTA FILT SUBE BATT OLET) where (isnamed eq true ) for $!site
 	
 	!items = object ARRAY()
 
 	do !obj val !all
 		!item = OBJECT DBREF(!obj)
-		!items.append(!item.namn + ';' + !item.parent.namn + ';' + !item.acttype + ';' + !s + ';' )
+		if !item.acttype eq 'EQUI' then
+			!desc = !item.desc
+		else
+			!desc = ''
+		endif
+		-- !items.append(!item.namn + ',' + !item.acttype + ',' + 'E3D' + ',' + !s + ',' + !packageName)
+		!items.append('"' + !item.namn + '";"' + !item.acttype  + '";"E3D";"' + !s + '";"' + !packageName + '"')
 	enddo
 	!file.WriteFile('APPEND', !items)
 enddo
 
 !eof = object ARRAY()
+-- !eof.append('END OF DATA,,,,')
 !eof.append('END OF DATA;;;;')
 !file.WriteFile('APPEND', !eof)
  

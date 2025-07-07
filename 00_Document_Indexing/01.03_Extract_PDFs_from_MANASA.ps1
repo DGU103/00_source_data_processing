@@ -15,7 +15,8 @@ Write-Log -Level INFO -Message "User: $env:userDomain\$env:UserName"
 Write-Log -Level INFO -Message "Running $scriptname. Please Wait"
 Write-Log -Level INFO -Message "====================================="
 
-Remove-Item -Path "\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\logs\*" -Recurse
+try {Remove-Item -Path "\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\logs\*" -Recurse -ErrorAction SilentlyContinue}
+catch {Write-Log -Level ERROR -Message "Failed to delete some log files: $($_.Exception.Message)"}
 # $date = Get-Date -Format "yyyy-MM-dd"
 # $log =  "W:\Appli\DigitalAsset\MP\RUYA_data\Logs\PS\" + $date + "_01_Update_Dcument_rendition.log"
 # Start-Transcript -Path $log -Append
@@ -28,49 +29,6 @@ Start-Process -Filepath "C:\Program Files\AVEVA\AVEVA NET Gateways\Gateway For C
 
 $source_path = "\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\indexing\EPC"+$epc+"_Source"
 
-# Load .NET ZIP support once
-Add-Type -AssemblyName System.IO.Compression.FileSystem
-
-do {
-    $zips = Get-ChildItem -Path $source_path -Filter *.zip -Recurse
-    Write-Log -Level INFO -Message "Found $($zips.Count) Zip files for processing"
-    foreach ($zip in $zips) {
-        # Write-Host "Processing $($zip.FullName)"
-        try {
-            
-            $archive = [IO.Compression.ZipFile]::OpenRead($zip.FullName)
-            $archive.Entries |
-              Where-Object {
-                  $ext = [IO.Path]::GetExtension($_.FullName).ToLowerInvariant()
-                  $ext -in '.dwg','.xlsx','.xls','.zip'
-              } |
-              ForEach-Object {
-                  $entry = $_
-                  $dest = Join-Path $zip.DirectoryName $entry.Name
-                #   Write-Host " Extracting $($entry.FullName) → $dest"
-                  [System.IO.Compression.ZipFileExtensions]::ExtractToFile(
-                      $entry,
-                      $dest,
-                      $true
-                  )
-              }
-
-              $archive.Dispose()
-              [GC]::Collect()
-              [GC]::WaitForPendingFinalizers()
-              Remove-Item -LiteralPath $zip.FullName -Force
-        }
-
-        catch {
-
-            Write-Host -Level INFO -Message "Encountered problem with the file $($zip.FullName)"
-            #Moving the corrupted file into the folder
-            Move-Item $zip.FullName -Destination "\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\Corrupted_files"
-        }
-    }
-} while ($zips.Count -gt 0)
-
-########## NEW ZIP LOGIC ##############################
 
 $inArray_source = [System.IO.Directory]::GetFiles("$source_path" , "*.pdf", [System.IO.SearchOption]::AllDirectories).Length
 

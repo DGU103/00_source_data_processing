@@ -3,9 +3,12 @@ Clear-Host
 
 class TagObject {
     [String] $Name
-    [String] $ACTTYPE
+    [String] $TYPE
+    [String] $SOURCE
+    # [String] $DESC
     [String] $DATE
-    [string] $namingtemplate
+    [String] $PACKAGE
+    # [string] $namingtemplate
 }
 
 . "$PSScriptRoot\..\Common_Functions.ps1"
@@ -39,28 +42,34 @@ foreach ($file in $csv_files) {
     $result = @()
 
     foreach ($record in $records) {
-        if ($record.ACTTYPE -in ("ZONE", "SITE", "NOZZ")) { continue }
+        if ($record.TYPE -in ("ZONE", "SITE", "NOZZ")) { continue }
 
         foreach ($regex in $compiledRegexes) {
             if ($regex.Pattern.IsMatch($record.Name)) {
                 $tag = New-Object TagObject
                 $tag.Name = $record.Name
-                $tag.ACTTYPE = $record.ACTTYPE
+                $tag.TYPE = $record.TYPE
+                $tag.SOURCE = $record.SOURCE
                 $tag.DATE = $record.DATE
-                $tag.namingtemplate = $regex.Template
+                $tag.PACKAGE = $record.PACKAGE
                 $result += $tag
                 break
             }
         }
     }
 
-    $outputFile = Join-Path $source_csv_dir "$($file.BaseName)_processed.csv"
+    if ($file.BaseName -like "EPCIC11*") {
+
+        $outputFile = Join-Path (Join-Path $source_csv_dir "EPC11") "$($file.BaseName)_processed.csv"
+    }
+
+    else {$outputFile = Join-Path $source_csv_dir "$($file.BaseName)_processed.csv"}
 
     try {
         if ($result.Count -gt 0) {
             $result |
-                Sort-Object -Property Name -Unique |
-                Select-Object -Property NAME, ACTTYPE, DATE, NAMINGTEMPLATE |
+                # Sort-Object -Property Name -Unique |
+                # Select-Object -Property NAME, TYPE, DATE, NAMINGTEMPLATE |
                 Export-Csv -Path $outputFile -NoTypeInformation -Force -Encoding UTF8
 
             Write-Log -Level INFO -Message "Exported: $outputFile"

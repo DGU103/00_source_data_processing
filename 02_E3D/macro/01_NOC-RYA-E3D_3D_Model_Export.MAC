@@ -263,11 +263,11 @@ endif
 !logfile = '/\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\E3D\log\'+!mdb+'.log'
 alpha log $!logfile overw
 
-var !SITEs coll all SITE with (matchw(NAMN, |BJ*DE|) or matchw(NAMN, |BH*DE|) or matchw(NAMN, |LA*DE|) or matchw(NAMN, |MA*DE|) or matchw(NAMN, |PA*DE|) or matchw(NAMN, |QA*DE|) or matchw(NAMN, |RA*DE|) or matchw(NAMN, |TA*DE|) or matchw(NAMN, |UA*DE|) or matchw(NAMN, |WA*DE|) or matchw(NAMN, |XA*DE|))
+var !SITEs coll all SITE with (matchw(NAMN, |BJ*DE|) or matchw(NAMN, |BH*DE|) or matchw(NAMN, |LA*DE|) or matchw(NAMN, |MA*DE|) or matchw(NAMN, |PA*DE|) or matchw(NAMN, |QA*DE|) or matchw(NAMN, |RA*DE|) or matchw(NAMN, |TA*DE|) or matchw(NAMN, |UA*DE|) or matchw(NAMN, |WA*DE|) or matchw(NAMN, |XA*DE|) and not(matchw(NAMN, |*-LQ*|) or matchw(NAMN, |*-BASE*|) or matchw(NAMN, |*-MIE-DE|) or matchw(NAMN, |*STUDY*|)))
 -- !SITEs.append('/RYA-BJ-VendorPackages')
 
 do !SITE val !SITEs  
-	var !zones APPEND coll ALL ZONE WITH ((MATCHWILD(NAME , '*-DE/*' ) OR MATCHWILD(NAME , '*-MEC-STP' )) AND NOT (MATCHWILD ( ATTRIB NAME , '*BJBR*' ) OR MATCHWILD ( ATTRIB NAME , '*STUDY*' ) OR MATCHWILD ( ATTRIB NAME , '*CRANEMV*' )  OR MATCHWILD ( ATTRIB NAME , '*MV' )  OR MATCHWILD ( ATTRIB NAME , '*MAN' ) OR MATCHWILD ( ATTRIB NAME , '*CABLE*' ) OR MATCHWILD ( ATTRIB NAME , '*OBS*' )  OR MATCHWILD ( ATTRIB NAME , '*_T' ) OR MATCHWILD ( ATTRIB NAME , '*TROLLEY*' )  OR MATCHWILD ( ATTRIB NAME , '*VOL*' ) OR MATCHWILD ( ATTRIB NAME , '*MISC*' ) OR MATCHWILD ( ATTRIB NAME , '*WAY*' )) AND ATTRIB MCOU NEQ 0 ) FOR $!SITE
+	var !zones coll ALL ZONE WITH ((MATCHWILD(NAME , '*-DE/*' ) OR MATCHWILD(NAME , '*-MEC-STP' )) AND NOT(MATCHWILD ( ATTRIB NAME , '*BJBR*' ) OR MATCHWILD ( ATTRIB NAME , '*STUDY*' ) OR MATCHWILD ( ATTRIB NAME , '*CRANEMV*' )  OR MATCHWILD ( ATTRIB NAME , '*MV' )  OR MATCHWILD ( ATTRIB NAME , '*MAN' ) OR MATCHWILD ( ATTRIB NAME , '*CABLE*' ) OR MATCHWILD ( ATTRIB NAME , '*OBS*' )  OR MATCHWILD ( ATTRIB NAME , '*_T' ) OR MATCHWILD ( ATTRIB NAME , '*TROLLEY*' )  OR MATCHWILD ( ATTRIB NAME , '*VOL*' ) OR MATCHWILD ( ATTRIB NAME , '*MISC*' ) OR MATCHWILD ( ATTRIB NAME , '*WAY*' ) or matchw(NAMN, |*_T|) or matchw(NAMN, |*_C|)  or matchw(NAMN, |*_F|)  or matchw(NAMN, |*BARGE*|)) AND ATTRIB MCOU NEQ 0 ) FOR $!SITE
 enddo
 
 -- TEST AREA --
@@ -285,12 +285,12 @@ EXPORT FILE "$!fileName"
 -- EXPORT EXCLUDE ALL EQUI WITH (MATCHW(name, '*TROLEY*'))
 -- EXPORT EXCLUDE ALL EQUI WITH (MATCHW(name, '*VESSEL*'))
 EXPORT EXCLUDE ALL FIXING 
-EXPORT EXCLUDE all GRIDWL
-EXPORT EXCLUDE ALL AIDGRO
+-- EXPORT EXCLUDE all GRIDWL
+-- EXPORT EXCLUDE ALL AIDGRO
 
-EXPORT EXCLUDE ALL SITE where (matchw(NAMN, |*-LQ*|) or matchw(NAMN, |*-BASE*|) or matchw(NAMN, |*-MIE-DE|) or matchw(NAMN, |*STUDY*|))
+-- EXPORT EXCLUDE ALL SITE where (matchw(NAMN, |*-LQ*|) or matchw(NAMN, |*-BASE*|) or matchw(NAMN, |*-MIE-DE|) or matchw(NAMN, |*STUDY*|))
 
-EXPORT EXCLUDE all ZONE where (matchw(NAMN, |*_T|) or matchw(NAMN, |*_C|)  or matchw(NAMN, |*_F|)  or matchw(NAMN, |*BARGE*|) or matchw(NAMN, |*HSE*MISC*|))
+-- EXPORT EXCLUDE all ZONE where (matchw(NAMN, |*_T|) or matchw(NAMN, |*_C|)  or matchw(NAMN, |*_F|)  or matchw(NAMN, |*BARGE*|) or matchw(NAMN, |*HSE*MISC*|))
 
 EXPORT EXCLUDE ALL STRU where ( matchw(NAMN, '*TROLEY*') or matchw(NAMN, '*TROLLEY*')  or matchw(NAMN, '*TRUCK*')  or matchw(NAME, '*VOL*') or matchw(NAMN, '*BOAT*') or matchw(NAMN, '*STUDY*') or matchw(NAMN, '*CARPET*') or matchw(NAMN, '*ZONE*') or matchw(NAMN, '*SPACE*') or matchw(NAMN, '*BARGE*') or matchw(NAMN, '*UTILITY_STATION*') or matchw(NAMN, '*SLING*'))
 

@@ -90,7 +90,13 @@ foreach ($namingTemplate_xml in $NamingTemplates.Node.ChildNodes){
             $final_regexp = $final_regexp + $regexp
         }
         #$regexList += $final_regexp + ";" + $namingTemplate_xml.id
-        if(!$regex_list[$final_regexp]){
+
+        #OLD
+        # if(!$regex_list[$final_regexp]){
+        
+        #NEW
+        if ($final_regexp -and !$regex_list[$final_regexp]) {
+
             $regex_list.add($final_regexp,$namingTemplate_xml.id + ';' + $discipline)
         }
 

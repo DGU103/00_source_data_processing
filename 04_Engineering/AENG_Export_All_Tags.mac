@@ -19,11 +19,11 @@ endif
 var !all coll all engitem where ( isnamed eq t and not(EXCLEL) and not(acttype eq ':ManholePhysical') and not(acttype eq ':ProcessNozzlePhysical') and not(acttype eq ':UtilityLine') and not(acttype eq ':PROPID') and not(acttype eq ':StreamLine')  and not(acttype eq ':TagToDocumentID')  and not(acttype eq ':TagToTagID') and not(matchw(NAME, '*-TR-*')) and not (matchw(NAME, '*-DEM')))
 
 !items = object ARRAY()
-!items.append('NAME;ACTTYPE;DATE')
+!items.append('NAME,TYPE,DESC,DATE,SOURCE,PACKAGE')
 
 do !obj val !all
 	!item = OBJECT DBREF(!obj)
-	!items.append(!item.namn+ ';' + !item.acttype + ';' + !s)
+	!items.append(!item.namn+ ',' + !item.acttype + ',' + ',' + !s + ',' + 'ENGINEERING' + ',' + !pckg)
 enddo
 !file = object FILE(!fileName)
 !file.WriteFile('OVERWRITE', !items)

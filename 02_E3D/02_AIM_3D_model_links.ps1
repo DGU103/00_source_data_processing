@@ -58,7 +58,7 @@ foreach ($file in $files) {
 
     $clean = $file.Name -replace ('_E3D-parents.csv', '')
 
-    $3d_items = Import-Csv -Path $file.FullName -Delimiter ';'
+    $3d_items = Import-Csv -Path $file.FullName -Delimiter ','
 
 $inArray = $3d_items
 $parts = 4

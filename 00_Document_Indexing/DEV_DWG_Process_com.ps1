@@ -5,8 +5,16 @@ param(
     [string[]] $InstList
 )
 
+$RegexCsv = 'W:\Appli\DigitalAsset\MP\RUYA_data\LocalRepo\00_source_data_processing\06_Regexp_configs\Light_regex.csv'
+
+if (-not $env:QTWEBENGINE_CHROMIUM_FLAGS) {
+    $env:QTWEBENGINE_CHROMIUM_FLAGS =
+    '--disable-gpu'
+    '--disable-software-rasterizer'
+}
+
 # $SourceDir = "W:\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC13_Source\CPPR1-MDM5-ASBJA-10-R54062-0001\03"
-$SourceDir = "\\QAMV3-SFIL102\Home\DGU103\My Documents\Artifacts\Indexing\smallbatch"
+$SourceDir = "\\QAMV3-SFIL102\Home\DGU103\My Documents\Artifacts\Indexing\smallbatch\dwgtest"
 $OutCsv = "\\QAMV3-SFIL102\Home\DGU103\My Documents\Artifacts\Indexing\out.csv"
 
 #ensure we are in STA (COM req)
@@ -24,7 +32,7 @@ if (-not $InstList) {
 
 
 if (-not (Test-Path $RegexCsv)) {
-    throw "Light_regex.csv not found → $RegexCsv"
+    throw "Light_regex.csv not found - $RegexCsv"
 }
 $LightRows = Import-Csv -Delimiter ';' -Path $RegexCsv
 $LightCompiled = foreach ($row in $LightRows) {
@@ -39,6 +47,7 @@ New-Item -Path (Split-Path $OutCsv) -ItemType Directory -Force | Out-Null
 #Dedupe
 $seen = New-Object System.Collections.Generic.HashSet[string]
 $today = Get-Date -Format 'MM/dd/yyyy'
+$rows = New-Object System.Collections.Generic.List[psobject]
 
 # Start BricsCAD (hidden)
 $brics = New-Object -ComObject BricscadApp.AcadApplication
@@ -57,7 +66,10 @@ try {
 
         $ms = $doc.ModelSpace
 
-        #Collect all circles once per dtawing (centre + radius)
+        $nameparts = $file.Name -split '-'
+        $tagPrefix = if ($nameParts.Length -ge 3) {$nameparts[2].Substring(0,4) + 'A'} else {'XXXXA'}
+
+        #Collect all circles once per drawing (centre + radius)
 
         $circles = @()
 
@@ -102,6 +114,15 @@ try {
                 $key = "$token|$($file.BaseName)"
                 if ($seen.Contains($key)) { continue }
 
+                $rows.Add([pscustomobject]@{
+                    Tag_number = $token
+                    Document_number = $file.BaseName
+                    ST = "TEST"
+                    DATE = $today
+                    file_full_path = $file.FullName
+                    SourceType = 'DWG'
+                })
+
                 # Light regex
                 $hit = $false
                 for ($x=0;$x -lt $LightCompiled.Count;$x++) {
@@ -109,7 +130,7 @@ try {
                         $rows.Add([pscustomobject]@{
                             Tag_number = $token
                             Document_number = $file.BaseName
-                            ST = $LightRows[$i].Naming_template_ID
+                            ST = $LightRows[$x].Naming_template_ID
                             DATE = $today
                             file_full_path = $file.FullName
                             SourceType = 'DWG'
@@ -118,12 +139,13 @@ try {
                         $hit = $true ; break
                     }
                 }
+
                 if ($hit) { continue }
 
                 # Instrument Tag (prefix-seq)
                 if ($RSeq.IsMatch($token)) {
                     $rows.Add([pscustomobject]@{
-                        Tag_number = $token
+                        Tag_number = "$tagprefix-$token"
                         Document_number = $file.BaseName
                         ST = 'Hand valve custom search'
                         DATE = $today
@@ -136,8 +158,39 @@ try {
 
                 # Circle-enclosed tags
                 if ($inCircle){
+
+                    #       prev START       ##
+
+                    $ckey = '{0:N3},[1:N3}' -f $c.Cx, $c.Cy
+                    if (-not $circTokens.ContainsKey($cKey)) {
+                        $circTokens[$cKey] = @{Prefix = $null; Seq = $null}
+                    }
+
+                    # if ($InstPrefixRx.IsMatch($token)) {
+                    if ($RSeq.IsMatch($token)) {
+                        $circTokens[$cKey].Prefix = $token
+                    } elseif ($SeqRx.IsMatch($token)) {
+                        $circTokens[$ckey].Seq = $token
+                    }
+
+                    $p = $circTokens[$ckey].Prefix
+                    $s = $circTokens[$ckey].Seq
+
+                    if ($p -and $s) {
+                        $combo = "$p-$s"
+                        if ($seen.Add("$combo|$($file.BaseName)")) {
+                            # ADD ALL OF THE ROWS BELOW HERE:
+                        }
+                            #reset so duplicate pairs in same circle don't add again
+                        $circTokens[$ckey] = @{Prefix = $null; Seq = $null}
+
+                    }
+
+
+                    #       prev FINISH       ##
+
                     $rows.Add([pscustomobject]@{
-                        Tag_number = $token
+                        Tag_number = "$tagprefix-$token"
                         Document_number = $file.BaseName
                         ST = 'Circle Tag'
                         DATE = $today

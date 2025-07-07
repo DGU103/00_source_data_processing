@@ -34,9 +34,12 @@ if (-not $inArray_source -or $inArray_source -eq 0 ) {
 }
 
 Write-Log -Level WARN -Message "Deleting $inArray_meta Metadata objects"
-Remove-Item -Path "$meta_path\*" -Recurse
+try {Remove-Item -Path "$meta_path\*" -Recurse -ErrorAction SilentlyContinue }
+catch {Write-Log -Level ERROR -Message "Failed to delete some metdata files: $($_.Exception.Message)"}
+
 Write-Log -Level WARN -Message "Deleting $inArray_source PDF Source objects"
-Remove-Item -Path "$source_path\*" -Recurse
+try {Remove-Item -Path "$source_path\*" -Recurse -ErrorAction SilentlyContinue }
+catch {Write-Log -Level ERROR -Message "Failed to delete some sourcedata files: $($_.Exception.Message)"}
 
 $finished = $true
 Write-Log -Level INFO -Message "Cleanup of META and SOURCE data completed" -finished $finished

@@ -37,7 +37,7 @@ endif
 var !SITEs coll all SITE with (matchw(NAMN, |BJ*DE|) or matchw(NAMN, |BH*DE|) or matchw(NAMN, |LA*DE|) or matchw(NAMN, |MA*DE|) or matchw(NAMN, |PA*DE|) or matchw(NAMN, |QA*DE|) or matchw(NAMN, |RA*DE|) or matchw(NAMN, |TA*DE|) or matchw(NAMN, |UA*DE|) or matchw(NAMN, |WA*DE|) or matchw(NAMN, |XA*DE|))
 
 !items = object ARRAY()
-!items.append('NAME;type;parents')
+!items.append('NAME,type,parents')
 !file.WriteFile('OVERWRITE', !items)
 
 do !site val !sites
@@ -65,7 +65,7 @@ do !site val !sites
 		enddo
 
 		!item = OBJECT DBREF(!obj)
-		!items.append(!item.name + ';' + !item.type + ';' + !allParents)
+		!items.append(!item.namn + ',' + !item.type + ',' + !allParents)
 
 	enddo
 	!file.WriteFile('APPEND', !items)
