@@ -13,9 +13,9 @@ CONSOLE SHOW
 !epc12.append('NAME')
 !epc13.append('NAME')
 
-var !epc11 append eval NAME for all scgrou with ( ( matchw(name,'/SCG_WHPR1-MDM4*')))
-var !epc12 append eval NAME for all scgrou with ( ( matchw(name,'/SCG_RPBR1-LTE1*')))
-var !epc13 append eval NAME for all scgrou with ( ( matchw(name,'/SCG_CPPR1-MDM5*')))
+var !epc11 append eval NAME for all SCDIAG with ( ( matchw(name,'/WHPR1-MDM4*')))
+var !epc12 append eval NAME for all SCDIAG with ( ( matchw(name,'/RPBR1-LTE1*')))
+var !epc13 append eval NAME for all SCDIAG with ( ( matchw(name,'/CPPR1-MDM5*')))
 
 if(not(!epc11.Empty()))then
     !path = !folder +'00_EPCIC11_DIAG_Doc_List.csv'

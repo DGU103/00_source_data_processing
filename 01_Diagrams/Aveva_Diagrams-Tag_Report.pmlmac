@@ -22,7 +22,7 @@ var !epcic12 collect all scgrou with ( matchw(name,'*BH*') and Dbdepth eq 1 )
 var !epcic13 eval name for all scgrou with ( ( matchw(name,'*BJ*') or matchw(name,'*LEGENDS*') ) and Dbdepth eq 1 )
 -- var !epcic13 eval name for all scgrou with ( ( matchw(name,'*dfgh*') or matchw(name,'*LEGENDS*') ) and Dbdepth eq 1 )
 
-!epc = split('epcic11,epcic12,epcic13',',')
+!epc = split('EPCIC11,EPCIC12,EPCIC13',',')
 
 do !k values !epc 
 	!elements = array()
@@ -33,11 +33,11 @@ do !k values !epc
 	q var !k
 	!data = array()
 	--!data.append('NAMN,REF,Type,DESC,DesLnk,EngLnk')
-	!data.append('NAMN,Type,DESC,DATE')
+	!data.append('NAME,TYPE,DATE,SOURCE,PACKAGE')
 	
 	do !i values !elements
 		!elem = !i.dbref()
-		!val = !elem.namn + ',' + !elem.type + ',' + !elem.desc + ',' + !datetime
+		!val = !elem.namn + ',' + !elem.type + ',' + !datetime + ',' + 'DIAGRAMS' + ',' + !k
 		--+ ',' + !elem.deslnk.string() + ',' + !elem.englnk.string()
 	
 		handle any
