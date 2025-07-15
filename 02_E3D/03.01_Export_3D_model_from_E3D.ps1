@@ -27,7 +27,7 @@ $mdb_list = @("RYA-BJ-DC00_MDB_DE","RYA-BH-DC00_MDB_DE","RYA-LA-DC03_MDB_DE","RY
 # $mdb_list = @("RYA-TA-DC44_MDB_DE","RYA-UA-DC01_MDB_DE","RYA-WA-DC02_MDB_DE","RYA-XA-DC28_MDB_DE") #Campain 2
 Write-Log -Level INFO -Message "Batch is runninng for the following MDBs: $mdb_list"
 
-if (-not($projectID)) {
+if ($projectID -eq 'RYA') {
    $project = 'RYA COMPANY/CPYRYA'
 }
 elseif ($projectID -eq 'RST') {

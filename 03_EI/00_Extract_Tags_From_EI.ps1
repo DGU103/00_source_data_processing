@@ -27,13 +27,12 @@ $SqlConnection = New-Object System.Data.SqlClient.SqlConnection
 $SqlConnection.ConnectionString = "Server = QA-SQL-TEST2019; Database = RYA-EI-TE-XXX-MCD; Integrated Security = True;"
 
 $SqlCmd = New-Object System.Data.SqlClient.SqlCommand
-$SqlCmd.CommandText = "SELECT  [EquipmentNo] as [TagNo], 
-						--[Description] as [Equipment / Instrument Type Description], 
-						--[Service] as [Description], 
-						--'' as [Equipment / Instrument Type Description], 
-						--'' as [Description], 
-						'ElectricalEquipment' as [BaseType],
-						GETDATE() as [DATE]
+$SqlCmd.CommandText = "SELECT  [EquipmentNo] as [NAME], 
+            'ElectricalEquipment' as [TYPE],
+						[Description] as [DESC], 
+						GETDATE() as [DATE],
+            'ELECTRICAL' as [SOURCE],
+            'EPCIC11' as [PACKAGE]
 						  FROM [RYA-EI-TE-XXX-MCD].[dbo].[Equipment]
 						  
 						  where (EquipTypeID in (7,74,20,28,22,29,34,25,23,44,31,30,43) 
@@ -70,9 +69,15 @@ $SqlConnection.ConnectionString = "Server = QA-SQL-TEST2019; Database = RYA-EI-T
 
 ## EPC 11  Instrumentation ##
 $SqlCmd = New-Object System.Data.SqlClient.SqlCommand
-$SqlCmd.CommandText = "select distinct [TagNo], 
-						              'Instruments' as [BaseType],
-						          GETDATE() as [DATE]
+
+$SqlCmd.CommandText = "
+select distinct 
+[TagNo] as [NAME], 
+'Instruments' as [TYPE],
+'' as [DESC],
+GETDATE() as [DATE],
+'INSTRUMENTATION' as [SOURCE],
+'EPCIC11' as [PACKAGE]
     from(SELECT  [EquipmentNo] as [TagNo], 
     '' as [Equipment / Instrument Type Description], 
     '' as [Description],
@@ -124,10 +129,13 @@ $SqlConnection.ConnectionString = "Server = QA-SQL-TEST2019; Database = RYA-EI-T
 
 ## EPC 11  Cables ##
 $SqlCmd = New-Object System.Data.SqlClient.SqlCommand
-$SqlCmd.CommandText = "SELECT  CableNo as [TagNo],
---CONCAT(Remarks,'. ', UserField1,'. ', UserField2,'. ', UserField3,'.')  as [Description],
-'Cables' as [BaseType],
-GETDATE() as [DATE]
+
+$SqlCmd.CommandText = "SELECT  CableNo as [NAME],
+'CABLE' as [TYPE],
+CONCAT(Remarks,'. ', UserField1,'. ', UserField2,'. ', UserField3,'.')  as [DESC],
+GETDATE() as [DATE],
+'EI' as [SOURCE],
+'EPCIC11' as [PACKAGE]
 FROM [RYA-EI-TE-XXX-MCD].[dbo].[Cables]
 where  CableNo not like 'ASBJ%'"
 
@@ -156,8 +164,8 @@ $SqlConnection.ConnectionString = "Server = QA-SQL-TEST2019; Database = RYA-EI-T
 $SqlCmd = New-Object System.Data.SqlClient.SqlCommand
 $SqlCmd.CommandText = "WITH InstrumentationCTE as (
 select distinct [TagNo], 
-						              'Instruments' as [BaseType],
-						          GETDATE() as [DATE]
+'Instruments' as [BaseType],
+GETDATE() as [DATE]
     from(SELECT  [EquipmentNo] as [TagNo], 
     '' as [Equipment / Instrument Type Description], 
     '' as [Description],
@@ -185,7 +193,13 @@ select distinct [TagNo],
     WHERE [TagNo] not like 'ASBJ%'
     AND  [TagNo] not like '%DEM[0-9]%'
     ) as dtl )
-  SELECT L.[LoopNo] FROM [RYA-EI-TE-XXX-MCD].[dbo].[LoopList] as L
+  SELECT L.[LoopNo] as [NAME],
+  'LOOP' as [TYPE],
+  '' as [DESC], 
+  GETDATE() as [DATE], 
+  'EI' as [SOURCE], 
+  'EPCIC11' as [PACKAGE] 
+  FROM [RYA-EI-TE-XXX-MCD].[dbo].[LoopList] as L
   LEFT JOIN InstrumentationCTE As I
   ON L.LoopNo COLLATE
   SQL_Latin1_General_CP1_CI_AS = I.TagNo
@@ -223,8 +237,13 @@ $SqlConnection.ConnectionString = "Server = QA-SQL-TEST2019; Database = RYA-EI-T
 
 ## EPC 13  Electrical ##
 $SqlCmd = New-Object System.Data.SqlClient.SqlCommand
-$SqlCmd.CommandText = "SELECT distinct [EquipmentNo] as [TagNo], 
-						          GETDATE() as [DATE]
+
+$SqlCmd.CommandText = "SELECT distinct [EquipmentNo] as [NAME], 
+                      '' as [TYPE],
+                      '' as [DESC],
+						          GETDATE() as [DATE],
+                      'ELECTRICAL' as [SOURCE],
+                      'EPCIC13' as [PACKAGE]
                       FROM [RYA-EI-TE-XXX-MCD].[dbo].[Equipment]
                       where EquipTypeID in (7,74,20,28,22,29,34,25,23,44,31,30,43) 
                       and EquipmentNo like 'ASBJ%'
@@ -257,9 +276,12 @@ $SqlConnection.ConnectionString = "Server = QA-SQL-TEST2019; Database = RYA-EI-T
 
 ## EPC 13  Instrumentation ##
 $SqlCmd = New-Object System.Data.SqlClient.SqlCommand
-$SqlCmd.CommandText = "select distinct [TagNo], 
-    [BaseType],
-		GETDATE() as [DATE]
+# NAME,TYPE,DESC,DATE,SOURCE,PACKAGE
+$SqlCmd.CommandText = "select distinct [TagNo] as [NAME], 
+    [BaseType] as [TYPE],
+		GETDATE() as [DATE],
+    'INSTRUMENTATION' as [SOURCE],
+    'EPCIC13' as [PACKAGE]
     from(SELECT  [EquipmentNo] as [TagNo], 
     '' as [Equipment / Instrument Type Description], 
     '' as [Description],
@@ -308,10 +330,12 @@ Write-Log -Level INFO -Message "Instrumentaiton Tag Extraction for $epc finished
 $SqlConnection.ConnectionString = "Server = QA-SQL-TEST2019; Database = RYA-EI-TE-XXX-MCD; Integrated Security = True;"
 ## EPC 13  Cables ##
 $SqlCmd = New-Object System.Data.SqlClient.SqlCommand
-$SqlCmd.CommandText = "SELECT  CableNo as [TagNo],
---CONCAT(Remarks,'. ', UserField1,'. ', UserField2,'. ', UserField3,'.')  as [Description],
-'Cables' as [BaseType],
-GETDATE() as [DATE]
+$SqlCmd.CommandText = "SELECT  CableNo as [NAME],
+'CABLE' as [TYPE],
+CONCAT(Remarks,'. ', UserField1,'. ', UserField2,'. ', UserField3,'.')  as [DESC],
+GETDATE() as [DATE],
+'EI' as [SOURCE],
+'EPCIC13' as [PACKAGE]
 FROM [RYA-EI-TE-XXX-MCD].[dbo].[Cables]
 where  CableNo like 'ASBJ%'"
 
@@ -367,8 +391,13 @@ select distinct [TagNo],
     WHERE [TagNo] like 'ASBJ%'
     AND  [TagNo] not like '%DEM[0-9]%'
     ) as dtl )
-
-  SELECT L.[LoopNo] FROM [RYA-EI-TE-XXX-MCD].[dbo].[LoopList] as L
+  SELECT L.[LoopNo]  as [NAME],
+  'LOOP' as [TYPE],
+  '' as [DESC], 
+  GETDATE() as [DATE], 
+  'EI' as [SOURCE], 
+  'EPCIC13' as [PACKAGE]  
+  FROM [RYA-EI-TE-XXX-MCD].[dbo].[LoopList] as L
   LEFT JOIN InstrumentationCTE As I
   ON L.LoopNo COLLATE
   SQL_Latin1_General_CP1_CI_AS = I.TagNo
@@ -406,8 +435,13 @@ $SqlConnection = New-Object System.Data.SqlClient.SqlConnection
 $SqlConnection.ConnectionString = "Server = QA-SQL-TEST2019; Database = RYA-EI-TE-BHA-LTM; Integrated Security = True;"
 
 $SqlCmd = New-Object System.Data.SqlClient.SqlCommand
-$SqlCmd.CommandText = "SELECT distinct [EquipmentNo] as [TagNo], 
-						            GETDATE() as [DATE]
+# NAME,TYPE,DESC,DATE,SOURCE,PACKAGE
+$SqlCmd.CommandText = "SELECT distinct [EquipmentNo] as [NAME], 
+                        '' as [TYPE],
+                        '' as [DESC],
+						            GETDATE() as [DATE],
+                        'ELECTRICAL' as [SOURCE],
+                        'EPCIC12' as [PACKAGE]
                         FROM [RYA-EI-TE-BHA-LTM].[dbo].[Equipment]
                         where EquipTypeID in (7,74,20,28,22,29,34,25,23,44,31,30,43) 
                         or (EquipTypeID in (8,2) 
@@ -438,16 +472,18 @@ try {
 $SqlConnection.ConnectionString = "Server = QA-SQL-TEST2019; Database = RYA-EI-TE-BHA-LTM; Integrated Security = True;"
 ## EPCI 12 Instrumentation ##
 $SqlCmd = New-Object System.Data.SqlClient.SqlCommand
-$SqlCmd.CommandText = " select distinct [TagNo], 
-                         --[Equipment / Instrument Type Description], 
-                         --[Description],
-						              'Instruments' as [BaseType],
-						              GETDATE() as [DATE]
-                         from(
-                         SELECT [EquipmentNo] as [TagNo], 
-                         '' as [Equipment / Instrument Type Description], 
-                         '' as [Description],
-						 'InstrumentEquipment' as [BaseType]
+# NAME,TYPE,DESC,DATE,SOURCE,PACKAGE
+$SqlCmd.CommandText = "select distinct [TagNo] as [NAME],
+                      '' as [TYPE],
+                      '' as [DESC],
+                      'INSTRUMENTATION' as [SOURCE],
+                      'EPCIC12' as [PACKAGE],
+						           GETDATE() as [DATE]
+                       from(
+                       SELECT [EquipmentNo] as [TagNo], 
+                        '' as [Equipment / Instrument Type Description], 
+                        '' as [Description],
+						            'InstrumentEquipment' as [BaseType]
                          FROM [RYA-EI-TE-BHA-LTM].[dbo].[Equipment]
                          where EquipTypeID in (4,9,17)
                          or (EquipTypeID in (8,2) 
@@ -458,10 +494,10 @@ $SqlCmd.CommandText = " select distinct [TagNo],
                          or EquipmentNo like '%-JBC-%'))
                          UNION 
                          select [TagNo], 
-                         '' as [Equipment / Instrument Type Description], 
-                         '' as [Description],
-						 'InstrumentList' as [BaseType]
-                         from [RYA-EI-TE-BHA-LTM].[dbo].InstrumentList) as dtl"
+                        '' as [Equipment / Instrument Type Description], 
+                        '' as [Description],
+						            'InstrumentList' as [BaseType]
+                        from [RYA-EI-TE-BHA-LTM].[dbo].InstrumentList) as dtl"
 
 $SqlCmd.Connection = $SqlConnection
 $SqlAdapter = New-Object System.Data.SqlClient.SqlDataAdapter
@@ -485,10 +521,12 @@ $SqlConnection = New-Object System.Data.SqlClient.SqlConnection
 $SqlConnection.ConnectionString = "Server = QA-SQL-TEST2019; Database = RYA-EI-TE-BHA-LTM; Integrated Security = True;"
 ## EPC 12  Cables ##
 $SqlCmd = New-Object System.Data.SqlClient.SqlCommand
-$SqlCmd.CommandText = "SELECT  CableNo as [TagNo],
---CONCAT(Remarks,'. ', UserField1,'. ', UserField2,'. ', UserField3,'.')  as [Description],
-'Cables' as [BaseType],
-GETDATE() as [DATE]
+$SqlCmd.CommandText = "SELECT  CableNo as [NAME],
+'CABLE' as [TYPE],
+CONCAT(Remarks,'. ', UserField1,'. ', UserField2,'. ', UserField3,'.')  as [DESC],
+GETDATE() as [DATE],
+'EI' as [SOURCE],
+'EPCIC12' as [PACKAGE]
 FROM [RYA-EI-TE-BHA-LTM].[dbo].[Cables]"
 
 $SqlCmd.Connection = $SqlConnection
@@ -516,33 +554,36 @@ $SqlConnection.ConnectionString = "Server = QA-SQL-TEST2019; Database = RYA-EI-T
 $SqlCmd = New-Object System.Data.SqlClient.SqlCommand
 $SqlCmd.CommandText = "WITH InstrumentationCTE as (
 select distinct [TagNo], 'Instruments' as [BaseType],
-						          GETDATE() as [DATE]
-    from(SELECT  [EquipmentNo] as [TagNo], 
-    '' as [Equipment / Instrument Type Description], 
-    '' as [Description],
-    'InstrumentEquipment' COLLATE SQL_Latin1_General_CP1_CI_AS  as [BaseType]
-
-                  FROM [RYA-EI-TE-BHA-LTM].[dbo].[Equipment]
-                        where EquipTypeID in (4,9,17)
-                         or (EquipTypeID in (8,2) 
-                         and (EquipmentNo like '%-CPJ-%' 
-                         or EquipmentNo like '%-JBE-%' 
-                         or EquipmentNo like '%-JBJ-%'
-                         or EquipmentNo like '%-JBS-%' 
-                         or EquipmentNo like '%-JBC-%'))
-                         UNION 
-                         select [TagNo], 
-                         '' as [Equipment / Instrument Type Description], 
-                         '' as [Description],
-						 'InstrumentList' as [BaseType]
-                         from [RYA-EI-TE-BHA-LTM].[dbo].InstrumentList) as dtl )
-  
-  SELECT L.[LoopNo] FROM [RYA-EI-TE-BHA-LTM].[dbo].[LoopList] as L
-  LEFT JOIN InstrumentationCTE As I
-  ON L.LoopNo COLLATE
-  SQL_Latin1_General_CP1_CI_AS = I.TagNo
-  Where I.TagNo IS NULL;
-"
+GETDATE() as [DATE]
+from(SELECT  [EquipmentNo] as [TagNo], 
+'' as [Equipment / Instrument Type Description], 
+'' as [Description],
+'InstrumentEquipment' COLLATE SQL_Latin1_General_CP1_CI_AS  as [BaseType]
+FROM [RYA-EI-TE-BHA-LTM].[dbo].[Equipment]
+where EquipTypeID in (4,9,17)
+or (EquipTypeID in (8,2) 
+and (EquipmentNo like '%-CPJ-%' 
+or EquipmentNo like '%-JBE-%' 
+or EquipmentNo like '%-JBJ-%'
+or EquipmentNo like '%-JBS-%' 
+or EquipmentNo like '%-JBC-%'))
+UNION 
+select [TagNo], 
+'' as [Equipment / Instrument Type Description], 
+'' as [Description],
+'InstrumentList' as [BaseType]
+from [RYA-EI-TE-BHA-LTM].[dbo].InstrumentList) as dtl )
+SELECT L.[LoopNo] as [NAME],
+'LOOP' as [TYPE],
+'' as [DESC], 
+GETDATE() as [DATE], 
+'EI' as [SOURCE], 
+'EPCIC12' as [PACKAGE] 
+FROM [RYA-EI-TE-BHA-LTM].[dbo].[LoopList] as L
+LEFT JOIN InstrumentationCTE As I
+ON L.LoopNo COLLATE
+SQL_Latin1_General_CP1_CI_AS = I.TagNo
+Where I.TagNo IS NULL;"
 
 $SqlCmd.Connection = $SqlConnection
 $SqlAdapter = New-Object System.Data.SqlClient.SqlDataAdapter

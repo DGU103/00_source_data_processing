@@ -1,0 +1,105 @@
+
+!allScgroups = !!collectallfor('SCGROU', |matchw(NAMN, '*-PRS-DE') and not(matchw(NAMN, '*BHYY-PRS-DE*'))| , /* )
+do !allScgroup val !allScgroups
+    q var !allScgroup.namn
+    !platformCode = !allScgroup.namn.substring(0,4)
+
+    !allequi = !!collectallfor('SCEQUI', || , $!allScgroup )
+    !fittings = !!collectallfor('SCFITT', |gtype eq 'TEE'| , $!allScgroup )
+    !brans = !!collectallfor('SCBRAN', || , $!allScgroup )
+    !nozzs = !!collectallfor('SCNOZZ', || , $!allScgroup )
+    !SCINSTs = !!collectallfor('SCINST', |isnamed| , $!allScgroup )
+    !SCOINs = !!collectallfor('SCOINS', | isnamed | , $!allScgroup )
+
+    !output = object array()
+    !output.append('"ObjNAME","ObjTYPE","ObjREFERENCE"')
+
+
+    do !fitting val !fittings
+        if !fitting.Crfarray.size() eq 0 then
+            !output.append('"' + !fitting.name.replace('"','""') + '","' + !fitting.type + '","Unconnected"')
+        endif
+        do !firRef val !fitting.Crfarray
+            if !firRef.string() eq 'Unset' then
+                -- !output.append('"' + !fitting.name.replace('"','""') + '","' + !fitting.type + '","Unset"')
+                skip
+            elseif !firRef.badref() then
+                !output.append('"' + !fitting.name.replace('"','""') + '","' + !fitting.type + '","Broken reference"')
+            else
+                !output.append('"' + !fitting.name.replace('"','""') + '","' + !fitting.type + '","' + !firRef.name.replace('"','""')  + '","' + !firRef.type +  '"')
+            endif
+        enddo
+    enddo
+    !fileName = 'W:\Appli\DigitalAsset\MP\RUYA_data\Source\Diag\Connection_Report\'+ !platformCode +'fittings_connections_report.csv'
+    !file = object FILE(!fileName)
+    !file.WriteFile('OVERWRITE', !output)
+
+    !output = object array()
+    !output.append('"ObjNAME","ObjTYPE","ObjREFERENCE", "ref type"')
+
+    do !bran val !brans
+        if (!bran.href.string() neq 'Unset' and not(!bran.href.badref())) then
+            !output.append('"' + !bran.name.replace('"','""') + '","' + !bran.type + '","' + !bran.href.name.replace('"','""') + '","head"')
+        elseif (!bran.href.string() eq 'Unset') then
+            !output.append('"' + !bran.name.replace('"','""') + '","' + !bran.type + '","Unset","head"')
+        elseif (!bran.href.badref()) then
+            !output.append('"' + !bran.name.replace('"','""') + '","' + !bran.type + '","Broken reference","head"')
+        endif
+        
+        if (!bran.tref.string() neq 'Unset' and not(!bran.tref.badref())) then
+            !output.append('"' + !bran.name.replace('"','""') + '","' + !bran.type + '","' + !bran.tref.name.replace('"','""') + '","tail"')
+        elseif (!bran.tref.string() eq 'Unset') then
+            !output.append('"' + !bran.name.replace('"','""') + '","' + !bran.type + '","Unset","tail"')
+        elseif (!bran.tref.badref()) then
+            !output.append('"' + !bran.name.replace('"','""') + '","' + !bran.type + '","Broken reference","tail"')
+        endif
+    enddo
+    !fileName = 'W:\Appli\DigitalAsset\MP\RUYA_data\Source\Diag\Connection_Report\'+ !platformCode +'branches_connections_report.csv'
+    !file = object FILE(!fileName)
+    !file.WriteFile('OVERWRITE', !output)
+
+    !output = object array()
+    !output.append('"ObjNAME","ObjTYPE","ObjREFERENCE"')
+    do !item val !nozzs
+        if !item.cref.string() eq 'Unset' then
+            !output.append('"' + !item.name.replace('"','""') + '","' + !item.type + '","Unset"')
+        elseif !item.badref() then
+            !output.append('"' + !item.name.replace('"','""') + '","' + !item.type + '","Broken reference"')
+        else
+            !output.append('"' + !item.name + '","' + !item.type + '","' + !item.cref.name.replace('"','""') + '"')
+            handle any
+            endhandle
+        endif
+    enddo
+
+
+    !fileName = 'W:\Appli\DigitalAsset\MP\RUYA_data\Source\Diag\Connection_Report\'+ !platformCode +'Nozzles_connections_report.csv'
+    !file = object FILE(!fileName)
+    !file.WriteFile('OVERWRITE', !output)
+
+    !output = object array()
+    !output.append('"ObjNAME","ObjTYPE","ObjREFERENCE"')
+    do !sCoin val !SCOINs
+        !allrefs = object array()
+        if !sCoin.Ecrfarray.size() neq 0 then
+            !allrefs.AppendArray(!sCoin.Ecrfarray)
+        endif
+        if !sCoin.Sciref.size() neq 0 then
+            !allrefs.AppendArray(!sCoin.Sciref)
+        endif  
+        if !allrefs.size() eq 0 then
+            !output.append('"' + !sCoin.name.replace('"','""') + '","' + !sCoin.type + '","No refs"')
+        else
+            do !arrayref val !allrefs
+                if (!arrayref.badref()) then
+                    !output.append('"' + !sCoin.name.replace('"','""') + '","' + !sCoin.type + '","Broken reference"')
+                else
+                    !output.append('"' + !sCoin.name.replace('"','""') + '","' + !sCoin.type + '","'+ !arrayref.name+'"')
+                endif
+            enddo
+        endif
+    enddo
+    !fileName = 'W:\Appli\DigitalAsset\MP\RUYA_data\Source\Diag\Connection_Report\'+ !platformCode +'scoins_connections_report.csv'
+    !file = object FILE(!fileName)
+    !file.WriteFile('OVERWRITE', !output)
+enddo

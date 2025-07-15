@@ -1,0 +1,85 @@
+
+/PRS-PID-DE
+
+!allequi = !!collectallfor('SCEQUI', || , ce )
+!fittings = !!collectallfor('SCFITT', |gtype eq 'TEE'| , ce )
+!brans = !!collectallfor('SCBRAN', || , ce )
+!nozzs = !!collectallfor('SCNOZZ', || , ce )
+!SCINSTs = !!collectallfor('SCINST', |isnamed| , ce )
+!SCOINSs = !!collectallfor('SCOINS', | isnamed | , ce )
+
+!output = object array()
+!output.append('"ObjNAME","ObjTYPE","ObjREFERENCE","ObjREFERENCEtype"')
+
+
+do !equi val !allequi
+    do !mem val !equi.mem
+        if !mem.type eq 'SCNOZZ' then
+            !output.append('"' + !equi.name.replace('"','""') + '","' + !equi.type + '","' + !mem.name.replace('"','""') + '","' + !mem.type + '"')
+        endif
+    enddo
+enddo
+do !fitting val !fittings
+    do !mem val !fitting.Crfarray
+        skip if (!mem.string() eq 'Unset' or !mem.badref())
+        !output.append('"' + !fitting.name.replace('"','""') + '","' + !fitting.type + '","' + !mem.name.replace('"','""')  + '","' + !mem.type +  '"')
+    enddo
+    !output.append('"' + !fitting.name.replace('"','""') + '","' + !fitting.type + '","' + !fitting.owner.owner.name.replace('"','""')  + '","' + !fitting.owner.owner.type +  '"')
+    !output.append('"' +  !fitting.owner.owner.name.replace('"','""')  + '","' +  !fitting.owner.owner.type + '","' + !fitting.name.replace('"','""') + '","' + !fitting.type +  '"')
+enddo
+
+do !bran val !brans
+    if (!bran.href.string() neq 'Unset' and not(!bran.href.badref())) then
+        skip if !bran.href.type eq 'SCOPCO' or !bran.href.type eq 'SCOPCI'  
+        !bran.href.attribute('GTYPE').string()
+        handle any
+            skip
+        endhandle
+        skip if !bran.href.gtype eq 'FLAN'
+        !output.append('"' + !bran.name.replace('"','""') + '","' + !bran.type + '","' + !bran.href.name.replace('"','""') + '","' + !bran.href.type + '"')
+    endif
+    if (!bran.tref.string() neq 'Unset' and not(!bran.tref.badref())) then
+        skip if !bran.tref.type eq 'SCOPCO' or !bran.tref.type eq 'SCOPCI' 
+        !bran.href.attribute('GTYPE').string()
+        handle any
+            skip
+        endhandle
+        skip if !bran.href.gtype eq 'FLAN'
+        !output.append('"' + !bran.name.replace('"','""') + '","' + !bran.type + '","' + !bran.tref.name.replace('"','""') + '","' + !bran.tref.type + '"')
+    endif
+enddo
+
+do !nozz val !nozzs
+    if (!nozz.cref.string() neq 'Unset'  and not(!nozz.cref.badref())) then
+        !output.append('"' + !nozz.name.replace('"','""') + '","' + !nozz.type + '","' + !nozz.cref.name.replace('"','""') + '","' + !nozz.cref.type + '"')
+    endif
+    !output.append('"' + !nozz.name.replace('"','""') + '","' + !nozz.type + '","' + !nozz.owner.name.replace('"','""') + '","' + !nozz.owner.type + '"')
+enddo
+
+do !SCINST val !SCINSTs
+    !output.append('"' + !SCINST.name.replace('"','""') + '","' + !SCINST.type + '","' + !SCINST.owner.owner.name.replace('"','""') + '","' + !SCINST.owner.owner.type + '"')
+enddo
+
+do !SCOINS val !SCOINSs
+    !Ecrfarray = !SCOINS.Ecrfarray
+    do !arrayref val !Ecrfarray
+        if (!arrayref.string() neq 'Unset' and not(!arrayref.badref())) then
+            !output.append('"' + !SCOINS.name.replace('"','""') + '","' + !SCOINS.type + '","' + !arrayref.name.replace('"','""') + '","' + !arrayref.type + '"')
+        endif
+    enddo
+    !Scirefs = !SCOINS.Sciref
+    do !Sciref val !Scirefs
+        if (!Sciref.string() neq 'Unset' and not(!Sciref.badref())) then
+            !output.append('"' + !SCOINS.name.replace('"','""') + '","' + !SCOINS.type + '","' + !Sciref.name.replace('"','""') + '","' + !Sciref.type + '"')
+        endif
+    enddo
+enddo
+
+
+!fileName = 'W:\Appli\DigitalAsset\MP\RUYA_data\LocalRepo\00_source_data_processing\01_Diagrams\Diagrams.csv'
+!file = object FILE(!fileName)
+!file.WriteFile('OVERWRITE', !output)
+
+-- !fileNameinst = 'W:\Appli\DigitalAsset\MP\RUYA_data\LocalRepo\00_source_data_processing\01_Diagrams\Diagrams_insts.csv'
+-- !fileInst = object FILE(!fileNameinst)
+-- !fileInst.WriteFile('OVERWRITE', !connectedInstruments)

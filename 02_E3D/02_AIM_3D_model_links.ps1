@@ -58,7 +58,7 @@ foreach ($file in $files) {
 
     $clean = $file.Name -replace ('_E3D-parents.csv', '')
 
-    $3d_items = Import-Csv -Path $file.FullName -Delimiter ','
+    $3d_items = Import-Csv -Path $file.FullName -Delimiter ';'
 
 $inArray = $3d_items
 $parts = 4
@@ -177,8 +177,9 @@ foreach ($item in $job_results) {
 
 #Final Export
 
-$root_path = "\\qamv3-sapp243\GDP\GDP_StagingArea\MP\ref3D\"
+# $root_path = "\\qamv3-sapp243\GDP\GDP_StagingArea\MP\ref3D\"
 #$root_path = "\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\E3D\3DModel\"
+$root_path = "\\QAMV3-SFIL102\Home\DGU103\My Documents\Artifacts\AIMA\"
 
 $export_file_path = $root_path + $clean + "-MTR_3D_items2Tag_refs.csv"
 

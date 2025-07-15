@@ -18,10 +18,11 @@ if ($epc -eq 11) {
 $svg_list = Get-ChildItem -Path '\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Diag\SVG\' -Filter $filter
 
 $mapping_File = @{}
-Import-Csv -Path "\\qamv3-sapp243\GDP\GDP_Config\Configuration\mapping.csv" | % {$mapping_File[$_."File name"] = $_."Document Identifier"}
+Import-Csv -Path "\\qamv3-sapp243\GDP\GDP_Config\Configuration\mapping.csv" | ForEach-Object {$mapping_File[$_."File name"] = $_."Document Identifier"}
 
 foreach ($file in $svg_list) {
-    $doc = $file.NAME
+    # $doc = $file.NAME
+    $doc = $file.Name
     
     if ($doc -notmatch '(CPPR1-MDM5-AS|RPBR1-LTE1-AS|WHPR1-MDM4-AS)[A-Z]{3}-[0-9]{2}-[0-9]{6}-[0-9]{4}_page[0-9].svg') {
         Write-Host "File skipped $doc"
@@ -30,7 +31,7 @@ foreach ($file in $svg_list) {
     
     if (-not($mapping_File[$doc])) {
         $doc + ',' + $doc -replace '_page[0-9].svg', ''  | Add-Content -Path "\\qamv3-sapp243\GDP\GDP_Config\Configuration\mapping.csv"
-        Write-Host 'SVG added to the mapping file: $doc'
+        Write-Host "SVG added to the mapping file: $doc"
     }
 }
 Start-Sleep -Seconds 600
