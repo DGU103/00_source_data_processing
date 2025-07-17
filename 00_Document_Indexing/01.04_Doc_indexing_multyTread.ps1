@@ -260,6 +260,10 @@ foreach ($i in 1..$parts) {
                     }
                 }
                 # Check for direct instrument tag
+                # Check that document is type of schematic first
+                if ($doctype -notmatch "PID|PFD|PSD|DID|SLD") {
+                    CONTINUE
+                }
                 foreach($word in $page_words){
                     if($word.Text -cmatch "^(" + $Inst_Regexes + ")-[0-9]{6}$") {
                         $record = [Tag2Doc]::new()
@@ -277,16 +281,28 @@ foreach ($i in 1..$parts) {
                         break
                     } 
                 }
-                if ($doctype -notmatch "PID|PFD|PSD|DID|SLD") {
-                    CONTINUE
-                }
-                # # If the page size isn’t "A1" and the file name doesn’t match a pattern, skip advanced search.
-                if($page.Size -ne "A1" -and $file.BaseName -notmatch '[A-Z0-9]{5}-[A-Z0-9]{3,5}-[A-Z]{5}-[0-9]{2}-[A-Z][0-9]{5}-[0-9]{4}' ) {
+                # If file name doesn’t match a pattern, skip advanced search.
+                if($file.BaseName -notmatch '[A-Z0-9]{5}-[A-Z0-9]{3,5}-[A-Z]{5}-[0-9]{2}-[A-Z][0-9]{5}-[0-9]{4}' ) {
                     continue
                 }
-
-
-
+                # If the page size doesn't match to regular page size of A1 format then calculate scale
+                $scale = 1
+                $h = $page.CropBox.Bounds.Height
+                $w = $page.CropBox.Bounds.Width
+                if ($h -gt $w) {
+                    # most likely the orientation of the sheet is vertical and we can skeep it
+                    CONTINUE
+                }
+                if ($h -gt $w) {
+                    $scale = 594 / $w
+                }
+                else{
+                    $scale = 594 / $h
+                }
+                # Default offset is identified base on practical tests
+                # Default offset shall be updated base on calculated scale
+                $offset = 10 * $scale
+                
                 # Gather potential instrument sequence words
                 $inst_sequens_numbers = @()
                 foreach($word in $page_words){
@@ -295,7 +311,6 @@ foreach ($i in 1..$parts) {
                     }
                 }
 
-                $offset = 10
                 foreach($word in $page_words){
                     if($word.Text -cmatch "^(" + $Inst_Regexes + ")$") {
                         switch($word.TextOrientation) {
@@ -322,11 +337,11 @@ foreach ($i in 1..$parts) {
                             }
                                                      'Rotate270' {
                                 foreach($seq_word in $inst_sequens_numbers){
-                                    if( ($word.BoundingBox.Centroid.Y) -ge $seq_word.BoundingBox.Bottom -and
-                                        ($word.BoundingBox.Centroid.Y) -le $seq_word.BoundingBox.Top -and 
-                                        ($word.BoundingBox.Centroid.X + 10) -ge $seq_word.BoundingBox.Left -and 
-                                        ($word.BoundingBox.Centroid.X + 10) -le $seq_word.BoundingBox.Right){
-                                        $ti = [Tag2Doc]::new()
+                                    if($word.BoundingBox.Centroid.Y -ge ($seq_word.BoundingBox.BottomLeft.Y ) -and 
+                                    $word.BoundingBox.Centroid.Y -le ($seq_word.BoundingBox.TopRight.Y) -and 
+                                    $word.BoundingBox.Centroid.X + $offset -ge ($seq_word.BoundingBox.BottomLeft.X - $offset) -and 
+                                    $word.BoundingBox.Centroid.X + $offset -le ($seq_word.BoundingBox.TopRight.X + $offset)){
+                                                $ti = [Tag2Doc]::new()
                                         $ti.Tag_number = "$Tag_number_Prefix-$($word.Text)-$($seq_word.Text)"
                                         $ti.Document_number = $file.BaseName
                                         $ti.ST = "Advanced Instrument Tag Search"
@@ -345,8 +360,8 @@ foreach ($i in 1..$parts) {
                                 foreach($seq_word in $inst_sequens_numbers){
                                     if( ($word.BoundingBox.Centroid.Y) -ge $seq_word.BoundingBox.Bottom -and
                                         ($word.BoundingBox.Centroid.Y) -le $seq_word.BoundingBox.Top -and 
-                                        ($word.BoundingBox.Centroid.X + 10) -ge $seq_word.BoundingBox.Left -and 
-                                        ($word.BoundingBox.Centroid.X + 10) -le $seq_word.BoundingBox.Right){
+                                        ($word.BoundingBox.Centroid.X - $offset) -ge ($seq_word.BoundingBox.Left - $offset) -and 
+                                        ($word.BoundingBox.Centroid.X - $offset) -le ($seq_word.BoundingBox.Right + $offset)){
                                         $ti = [Tag2Doc]::new()
                                         $ti.Tag_number = "$Tag_number_Prefix-$($word.Text)-$($seq_word.Text)"
                                         $ti.Document_number = $file.BaseName

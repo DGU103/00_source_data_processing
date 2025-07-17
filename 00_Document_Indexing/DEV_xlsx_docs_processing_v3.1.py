@@ -200,7 +200,7 @@ def process_excel_files(excel_files, visible_sheets_map, regex_patterns, output_
 #folder_path = _resolve('FOLDER_PATH', r'\\QAMV3-SFIL102\Home\DGU103\My Documents\Artifacts\Indexing\smallbatch')
 folder_path = _resolve('FOLDER_PATH', r'\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\EPC13_Source')
 regex_csv_path = _resolve('REGEX_CONFIG', r'W:\Appli\DigitalAsset\MP\RUYA_data\LocalRepo\00_source_data_processing\06_Regexp_configs\Light_regex.csv')
-output_csv_path = _resolve('OUTPUT_CSV_PATH', r'\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\DEV_EPCIC12_EXCEL_indexing_report.csv')
+output_csv_path = _resolve('OUTPUT_CSV_PATH', r'\\als.local\NOC\Data\Appli\DigitalAsset\MP\RUYA_data\Source\Indexing\DEV_EPCIC13_EXCEL_indexing_report.csv')
 
 ####            OLD MAIN START ########
 
@@ -226,5 +226,6 @@ if __name__ == '__main__':
         regex_patterns,
         output_csv_path
     )
+    sys.exit(0)
 
 
